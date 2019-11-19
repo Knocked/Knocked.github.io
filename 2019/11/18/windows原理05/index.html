@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="win32,windows原理," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="dll注入技术​    DLL注入的初始动力源自于程序员对其他第三方应用程序进行功能扩展的愿望，现在的DLL注入仍然是构成系统复杂功能，或对应用程序实现复杂操作的基础支撑技术。通过CreateRemoteThread()进行DLL注入的操作就是众多DLL注入技术的一种 ​    目前公开的DLL注入技巧：  注册表注入 ComRes注入 APC注入 消息钩子注入 远线程注入 依赖可信进程注入 劫">
+<meta name="keywords" content="win32,windows原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows原理05">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;windows%E5%8E%9F%E7%90%8605&#x2F;index.html">
+<meta property="og:site_name" content="Knocked_Blog">
+<meta property="og:description" content="dll注入技术​    DLL注入的初始动力源自于程序员对其他第三方应用程序进行功能扩展的愿望，现在的DLL注入仍然是构成系统复杂功能，或对应用程序实现复杂操作的基础支撑技术。通过CreateRemoteThread()进行DLL注入的操作就是众多DLL注入技术的一种 ​    目前公开的DLL注入技巧：  注册表注入 ComRes注入 APC注入 消息钩子注入 远线程注入 依赖可信进程注入 劫">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;windows%E5%8E%9F%E7%90%8605&#x2F;image-20191116162651900.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;windows%E5%8E%9F%E7%90%8605&#x2F;image-20191116185153487.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;windows%E5%8E%9F%E7%90%8605&#x2F;image-20191117162702982.png">
+<meta property="og:updated_time" content="2019-11-19T13:59:17.646Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;18&#x2F;windows%E5%8E%9F%E7%90%8605&#x2F;image-20191116162651900.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/18/windows原理05/"/>
+
+
+
+
+
+  <title>windows原理05 | Knocked_Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Knocked_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">HelloNewWorld</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/18/windows%E5%8E%9F%E7%90%8605/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kncoked">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Knocked_Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">windows原理05</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-18T00:30:00+08:00">
+                2019-11-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/win32/" itemprop="url" rel="index">
+                    <span itemprop="name">win32</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<h1 id="dll注入技术"><a href="#dll注入技术" class="headerlink" title="dll注入技术"></a>dll注入技术</h1><p>​    DLL注入的初始动力源自于程序员对其他第三方应用程序进行功能扩展的愿望，现在的DLL注入仍然是构成系统复杂功能，或对应用程序实现复杂操作的基础支撑技术。通过CreateRemoteThread()进行DLL注入的操作就是众多DLL注入技术的一种</p>
+<p>​    目前公开的DLL注入技巧：</p>
+<ol>
+<li>注册表注入</li>
+<li>ComRes注入</li>
+<li>APC注入</li>
+<li>消息钩子注入</li>
+<li>远线程注入</li>
+<li>依赖可信进程注入</li>
+<li>劫持进程创建注入</li>
+<li>输入法注入</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">远程线程注入</span><br><span class="line"></span><br><span class="line">DWORD dwPid = <span class="number">11344</span>;<span class="comment">//目标进程PID</span></span><br><span class="line"><span class="keyword">char</span>* pDllPath=(<span class="keyword">char</span>*)<span class="string">"D:\\Demo\\Injection\\Debug\\Dll1.dll"</span>;<span class="comment">//要注入的DLL</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//打开进程获取句柄</span></span><br><span class="line">HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS,</span><br><span class="line">	FALSE, dwPid);</span><br><span class="line"><span class="keyword">if</span> (hProcess == INVALID_HANDLE_VALUE)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"句柄打开失败\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//在目标进程中申请足够大的内存，存储DLL的全路径</span></span><br><span class="line">LPVOID pszDllName = VirtualAllocEx(hProcess,</span><br><span class="line">	<span class="literal">NULL</span>, <span class="built_in">strlen</span>(pDllPath),</span><br><span class="line">	MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line"><span class="keyword">if</span> (pszDllName == <span class="literal">NULL</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"内存申请失败\n"</span>);</span><br><span class="line">	CloseHandle(hProcess);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//把DLL全路径写入到目标内存中</span></span><br><span class="line">DWORD dwWrite;</span><br><span class="line">WriteProcessMemory(hProcess,</span><br><span class="line">	pszDllName, pDllPath,</span><br><span class="line">	<span class="built_in">strlen</span>(pDllPath), &amp;dwWrite);</span><br><span class="line"><span class="comment">//创建远程线程</span></span><br><span class="line">HANDLE hThread = CreateRemoteThread(</span><br><span class="line">	hProcess,  <span class="comment">//远程进程句柄</span></span><br><span class="line">	<span class="literal">NULL</span>,      <span class="comment">//安全属性</span></span><br><span class="line">	<span class="number">0</span>,         <span class="comment">//栈大小</span></span><br><span class="line">	(LPTHREAD_START_ROUTINE)LoadLibraryA,<span class="comment">//线程处理函数</span></span><br><span class="line">	pszDllName,<span class="comment">//传入参数 </span></span><br><span class="line">	<span class="literal">NULL</span>,      <span class="comment">//默认创建后的状态</span></span><br><span class="line">	<span class="literal">NULL</span>);     <span class="comment">//线程ID</span></span><br><span class="line"><span class="keyword">if</span> (hThread == <span class="literal">NULL</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"线程创建失败\n"</span>);</span><br><span class="line">	CloseHandle(hProcess);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//等待线程结束返回</span></span><br><span class="line">WaitForSingleObject(hThread, <span class="number">-1</span>);</span><br><span class="line"><span class="comment">//获取线程退出码，即LoadLibrary的返回值，即dll的首地址</span></span><br><span class="line">DWORD dwExitCode;</span><br><span class="line">GetExitCodeThread(hThread, &amp;dwExitCode);</span><br><span class="line">HMODULE hMod = (HMODULE)dwExitCode;</span><br><span class="line"><span class="comment">//释放空间</span></span><br><span class="line"><span class="keyword">if</span> (VirtualFreeEx(hProcess, pszDllName, <span class="number">0</span>, MEM_DECOMMIT))</span><br><span class="line">&#123;</span><br><span class="line">	CloseHandle(hProcess);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">CloseHandle(hProcess);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Dll1.dll</span><br><span class="line">    </span><br><span class="line"><span class="function">BOOL APIENTRY <span class="title">DllMain</span><span class="params">( HMODULE hModule,</span></span></span><br><span class="line"><span class="function"><span class="params">                       DWORD  ul_reason_for_call,</span></span></span><br><span class="line"><span class="function"><span class="params">                       LPVOID lpReserved</span></span></span><br><span class="line"><span class="function"><span class="params">                     )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (ul_reason_for_call)</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line">		MessageBox(<span class="number">0</span>, <span class="string">L"HOOK!"</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_ATTACH:</span><br><span class="line">    <span class="keyword">case</span> DLL_THREAD_DETACH:</span><br><span class="line">    <span class="keyword">case</span> DLL_PROCESS_DETACH:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="windows下的Hook技术"><a href="#windows下的Hook技术" class="headerlink" title="windows下的Hook技术"></a>windows下的Hook技术</h1><p>​    Hook是程序设计中最为灵活多变的技巧之一，在Windows下，Hook有两种含义：</p>
+<ul>
+<li>系统提供的消息Hook基址</li>
+<li>自定义的Hook编程技巧</li>
+</ul>
+<p>​    其中，由系统消息提供的消息钩子基址是由一系列的API提供的一种服务，这个系列的API可以完成对大多数应用程序关键节点的Hook操作，为此，Windows为每种Hook类型维护了一个钩子链表，我们可以通过一个系统API来完成对整个系统中所有符合此机制的关键点Hook。</p>
+<p>​    另一种自定义的Hook编程技巧则是基于特定系统结构、文件结构、汇编语言的一种高级技术。</p>
+<h2 id="系统消息Hook"><a href="#系统消息Hook" class="headerlink" title="系统消息Hook"></a>系统消息Hook</h2><p>​    Windows操作系统是以事件驱动的。事件被包装成了消息发送给窗口，比如点击菜单，按钮，移动窗口，按下键盘，正常消息：</p>
+<ul>
+<li>当按下键盘，产生一个消息，按键消息加入到系统消息队列</li>
+<li>操作系统从消息队列中取出消息，添加到相应的应用程序的消息队列中</li>
+<li>应用程序使用消息泵从自身的消息队列中取出消息WM_KEYDOWN，调用消息处理函数</li>
+</ul>
+<p>​    我们可以在系统消息队列到程序消息队列之间添加消息钩子，从而使得在系统消息队列消息可以发给应用程序之前捕获到消息。</p>
+<p>​    可以多次添加钩子，从而形成一个钩子链，可以依次调用函数。</p>
+<p>​    消息钩子是windows操作系统提供的机制，即spy++截获窗口消息的功能就是基于这样的机制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">main()</span><br><span class="line"></span><br><span class="line">HMODULE hMod = LoadLibraryA(&quot;D:\\Demo\\Injection\\Debug\\Dll1.dll&quot;);</span><br><span class="line">while (true)</span><br><span class="line">&#123;</span><br><span class="line">	Sleep(200);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">dllmain.cpp(Dll1.dll)</span><br><span class="line"></span><br><span class="line">#include &lt;Windows.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">HHOOK g_hook;</span><br><span class="line"></span><br><span class="line">LRESULT CALLBACK KeyboardProc(</span><br><span class="line">	_In_  int code,</span><br><span class="line">	_In_  WPARAM wParam,</span><br><span class="line">	_In_  LPARAM lParam</span><br><span class="line">) &#123;</span><br><span class="line">	// 判断是否wParam与lParam都有键盘消息，是的话则执行打印操作</span><br><span class="line">	if (code == HC_ACTION) &#123;</span><br><span class="line">		// 将256个虚拟键的状态拷贝到指定的缓冲区中，如果成功则继续</span><br><span class="line">		BYTE KeyState[256] = &#123; 0 &#125;;</span><br><span class="line">		if (GetKeyboardState(KeyState)) &#123;</span><br><span class="line">			// 得到第16–23位，键盘虚拟码</span><br><span class="line">			LONG  KeyInfo = lParam;</span><br><span class="line">			UINT  keyCode = (KeyInfo &gt;&gt; 16) &amp; 0x00ff;</span><br><span class="line">			WCHAR wKeyCode = 0;</span><br><span class="line">			ToAscii((UINT)wParam, keyCode, KeyState, (LPWORD)&amp;wKeyCode, 0);</span><br><span class="line">			// 将其打印出来</span><br><span class="line">			CHAR szInfo[10] = &#123; 0 &#125;;</span><br><span class="line">			sprintf_s(szInfo, _countof(szInfo), &quot;Hook_%c&quot;, wKeyCode);</span><br><span class="line">			OutputDebugStringA(szInfo);</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return CallNextHookEx(g_hook, code, wParam, lParam);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//导入函数：安装钩子，当触发Hook消息WH_KEYBOARD后，目标进程加载dll</span><br><span class="line">BOOL InstallHook(HMODULE hModule)&#123;</span><br><span class="line">	g_hook = SetWindowsHookEx(WH_KEYBOARD,</span><br><span class="line">		KeyboardProc, hModule, 0);</span><br><span class="line">	if (g_hook == NULL)</span><br><span class="line">		return FALSE;</span><br><span class="line">	return TRUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//导出函数：卸载钩子</span><br><span class="line">BOOL UnInsatllHook() &#123;</span><br><span class="line">	if (g_hook == NULL)</span><br><span class="line">		return FALSE;</span><br><span class="line">	return UnhookWindowsHookEx(g_hook);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BOOL APIENTRY DllMain( HMODULE hModule,</span><br><span class="line">                       DWORD  ul_reason_for_call,</span><br><span class="line">                       LPVOID lpReserved</span><br><span class="line">                     )</span><br><span class="line">&#123;</span><br><span class="line">    switch (ul_reason_for_call)</span><br><span class="line">    &#123;</span><br><span class="line">    case DLL_PROCESS_ATTACH:</span><br><span class="line">		InstallHook(hModule);</span><br><span class="line">		break;</span><br><span class="line">    case DLL_THREAD_ATTACH:</span><br><span class="line">    case DLL_THREAD_DETACH:</span><br><span class="line">    case DLL_PROCESS_DETACH:</span><br><span class="line">		UnInsatllHook();</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">    return TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用DebugView查看输出结果</p>
+<p><img src="image-20191116162651900.png" alt="image-20191116162651900"></p>
+<p>能够设置的钩子类型</p>
+<table>
+<thead>
+<tr>
+<th>宏值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>WH_MSGFILTER</td>
+<td>截获用户与空间交互的消息</td>
+</tr>
+<tr>
+<td>WH_KEYBOARD</td>
+<td>截获键盘消息</td>
+</tr>
+<tr>
+<td>WH_GETMESSAGE</td>
+<td>截获从消息队列送出的消息</td>
+</tr>
+<tr>
+<td>WH_CBT</td>
+<td>截获系统的基本消息，譬如：窗口的创建、激活、关闭、最大最小化、移动等等</td>
+</tr>
+<tr>
+<td>WH_MOUSE</td>
+<td>截获鼠标消息</td>
+</tr>
+<tr>
+<td>WH_CALLWNDPROCRET</td>
+<td>截获目标窗口处理完毕的消息</td>
+</tr>
+</tbody></table>
+<h2 id="自定义钩子"><a href="#自定义钩子" class="headerlink" title="自定义钩子"></a>自定义钩子</h2><p>​    钩子的主要含义其实就是改变程序原有的执行流程，让程序执行我们自己的代码。我们也可以通过修改程序代码的方式来实现这一点</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注入代码</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">InjectCode</span><span class="params">(<span class="keyword">char</span>* pCode, DWORD dwSize, DWORD dwPid)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//1.打开进程获取句柄</span></span><br><span class="line">	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwPid);</span><br><span class="line">	<span class="keyword">if</span> (!hProcess)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"句柄打开失败\n"</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//2. 再目标进程中申请足够大的内存，存储DLL的全路径</span></span><br><span class="line">	LPVOID lpBuf = VirtualAllocEx(hProcess, <span class="literal">NULL</span>,</span><br><span class="line">		<span class="built_in">strlen</span>(pCode), MEM_COMMIT, PAGE_EXECUTE_READWRITE);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!lpBuf)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"内存申请失败\n"</span>);</span><br><span class="line">		CloseHandle(hProcess);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//3.把DLL全路径写入进去</span></span><br><span class="line">	DWORD dwWrite;</span><br><span class="line">	WriteProcessMemory(hProcess, lpBuf,</span><br><span class="line">		pCode, dwSize, &amp;dwWrite);</span><br><span class="line">	<span class="comment">//4.创建远程线程</span></span><br><span class="line">	HANDLE hThread = CreateRemoteThread(hProcess, <span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">		(LPTHREAD_START_ROUTINE)lpBuf, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//5.等待线程结束</span></span><br><span class="line">	WaitForSingleObject(hThread, <span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//6.释放内存</span></span><br><span class="line">	VirtualFreeEx(hProcess, lpBuf, <span class="number">0</span>, MEM_RELEASE);</span><br><span class="line">	CloseHandle(hProcess);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//构造shellcode</span></span><br><span class="line">DWORD dwAddr;</span><br><span class="line">__asm</span><br><span class="line">&#123;</span><br><span class="line"> 	push <span class="number">0</span>;</span><br><span class="line"> 	push <span class="number">0</span>;</span><br><span class="line"> 	push <span class="number">0</span>;</span><br><span class="line"> 	push <span class="number">0</span>;</span><br><span class="line"> 	mov eax, <span class="number">0x99999999</span>;</span><br><span class="line"> 	call eax;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//x64dbg二进制shellcode形式复制出来的</span></span><br><span class="line"><span class="keyword">char</span> pCode[] = <span class="string">"\x6A\x00\x6A\x00\x6A\x00\x6A\x00\xB8\x99\x99\x99\x99\xFF\xD0"</span>;</span><br><span class="line">DWORD dwAddr;</span><br><span class="line">scanf_s(<span class="string">"%x"</span>, &amp;dwAddr);</span><br><span class="line">*(<span class="keyword">int</span>*)(pCode + <span class="number">9</span>) = dwAddr;</span><br><span class="line"></span><br><span class="line">DWORD dwPid;</span><br><span class="line">scanf_s(<span class="string">"%d"</span>, &amp;dwPid);</span><br><span class="line">InjectCode(pCode, <span class="keyword">sizeof</span>(pCode),dwPid);</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"MessageBoxW:0x%08X\n"</span>, (DWORD)MessageBoxW);</span><br></pre></td></tr></table></figure>
+
+<h3 id="内联HOOK"><a href="#内联HOOK" class="headerlink" title="内联HOOK"></a>内联HOOK</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tchar.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> g_OldCode[<span class="number">5</span>] = &#123;&#125;;</span><br><span class="line"><span class="keyword">char</span> g_NewCode[<span class="number">5</span>] = &#123; <span class="number">0xE9</span> &#125;;<span class="comment">//jmp</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> WINAPI <span class="title">MyMessageBox</span><span class="params">(HWND hWnd,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPCWSTR lpText,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPCWSTR lpCaption,</span></span></span><br><span class="line"><span class="function"><span class="params">	UINT uType)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OnHook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">//保存原函数被修改部分的代码</span></span><br><span class="line">	<span class="built_in">memcpy</span>(g_OldCode, MessageBox, <span class="number">5</span>);</span><br><span class="line">	<span class="comment">//计算偏移</span></span><br><span class="line">	DWORD dwOffset =</span><br><span class="line">		(DWORD)MyMessageBox - (DWORD)MessageBox - <span class="number">5</span>;</span><br><span class="line">	<span class="comment">//写入新的偏移</span></span><br><span class="line">	<span class="built_in">memcpy</span>(g_NewCode + <span class="number">1</span>, &amp;dwOffset, <span class="number">4</span>);</span><br><span class="line">	<span class="comment">//修改内存属性(代码段不可写)</span></span><br><span class="line">	DWORD dwOld;</span><br><span class="line">	VirtualProtect(MessageBox, <span class="number">5</span>, PAGE_READWRITE, &amp;dwOld);</span><br><span class="line">	<span class="built_in">memcpy</span>(MessageBox, g_NewCode, <span class="number">5</span>);</span><br><span class="line">	VirtualProtect(MessageBox, <span class="number">5</span>, dwOld, &amp;dwOld);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UnHook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	DWORD dwOld;</span><br><span class="line">	VirtualProtect(MessageBox, </span><br><span class="line">		<span class="number">5</span>, PAGE_EXECUTE_READWRITE, &amp;dwOld);</span><br><span class="line">	<span class="built_in">memcpy</span>(MessageBox, g_OldCode, <span class="number">5</span>);</span><br><span class="line">	VirtualProtect(MessageBox,</span><br><span class="line">		<span class="number">5</span>, dwOld, &amp;dwOld);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> WINAPI <span class="title">MyMessageBox</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ HWND hWnd,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ LPCWSTR lpText,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ LPCWSTR lpCaption,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ UINT uType)</span> </span>&#123;</span><br><span class="line">	lpText = _T(<span class="string">"HOOK!"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//卸载钩子</span></span><br><span class="line">	UnHook();</span><br><span class="line">	<span class="comment">//调用MessageBox</span></span><br><span class="line">	<span class="keyword">int</span> nReturn = MessageBox(hWnd, lpText, lpCaption, uType);</span><br><span class="line">	<span class="keyword">return</span> nReturn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//调用正常的MessageBox</span></span><br><span class="line">	MessageBox(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	OnHook();</span><br><span class="line">    <span class="comment">//调用我的MessageBox</span></span><br><span class="line">	MessageBox(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以把代码注入到其他进程中</p>
+<p><img src="image-20191116185153487.png" alt="image-20191116185153487"></p>
+<h3 id="IAT-HOOK"><a href="#IAT-HOOK" class="headerlink" title="IAT HOOK"></a>IAT HOOK</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dllmain.cpp : 定义 DLL 应用程序的入口点。</span></span><br><span class="line"><span class="comment">// Dll1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdafx.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;tchar.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">DWORD g_IATAddr;</span><br><span class="line">DWORD g_FunOldAddr;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> WINAPI <span class="title">MyMessageBox</span><span class="params">(HWND hWnd,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPCWSTR lpText,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPCWSTR lpCaption,</span></span></span><br><span class="line"><span class="function"><span class="params">	UINT uType)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">OnHook</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* pFunName, <span class="keyword">const</span> <span class="keyword">char</span>* pDllName)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//遍历导入表(INT)</span></span><br><span class="line">	<span class="comment">//参数为NULL返回创建进程的文件的句柄</span></span><br><span class="line">	HMODULE hMod = GetModuleHandle(<span class="literal">NULL</span>);</span><br><span class="line">	PIMAGE_DOS_HEADER pDos = (PIMAGE_DOS_HEADER)hMod;</span><br><span class="line">	PIMAGE_NT_HEADERS pNt = (PIMAGE_NT_HEADERS)</span><br><span class="line">		(pDos-&gt;e_lfanew + (DWORD)pDos);</span><br><span class="line"></span><br><span class="line">	DWORD dwImportRVA = pNt-&gt;OptionalHeader.DataDirectory[<span class="number">1</span>].VirtualAddress;</span><br><span class="line"></span><br><span class="line">	PIMAGE_IMPORT_DESCRIPTOR pImport = (PIMAGE_IMPORT_DESCRIPTOR)</span><br><span class="line">		(dwImportRVA + (DWORD)hMod);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (pImport-&gt;Name)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">char</span>* pDll = (<span class="keyword">char</span>*)(pImport-&gt;Name + (DWORD)hMod);</span><br><span class="line">		<span class="keyword">if</span> (!_stricmp(pDll, pDllName))<span class="comment">//忽略大小写</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//遍历INT</span></span><br><span class="line">			IMAGE_THUNK_DATA* pINT = (IMAGE_THUNK_DATA*)</span><br><span class="line">				(pImport-&gt;OriginalFirstThunk + (DWORD)hMod);</span><br><span class="line">			IMAGE_THUNK_DATA* pIAT = (IMAGE_THUNK_DATA*)</span><br><span class="line">				(pImport-&gt;FirstThunk + (DWORD)hMod);</span><br><span class="line">			<span class="keyword">while</span> (pINT-&gt;u1.AddressOfData)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span> (!IMAGE_SNAP_BY_ORDINAL(pINT-&gt;u1.AddressOfData))</span><br><span class="line">				&#123;</span><br><span class="line">					PIMAGE_IMPORT_BY_NAME pName = (PIMAGE_IMPORT_BY_NAME)</span><br><span class="line">						(pINT-&gt;u1.AddressOfData + (DWORD)hMod);</span><br><span class="line">					<span class="keyword">if</span> (!_stricmp((<span class="keyword">char</span>*)pName-&gt;Name, pFunName))</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="comment">//函数地址</span></span><br><span class="line">						g_FunOldAddr = pIAT-&gt;u1.Function;</span><br><span class="line">						g_IATAddr = (DWORD)pIAT;</span><br><span class="line"></span><br><span class="line">						<span class="comment">//修改IAT表中的地址</span></span><br><span class="line">						DWORD dwOld;</span><br><span class="line">						VirtualProtect(pIAT, <span class="number">4</span>, PAGE_READWRITE, &amp;dwOld);</span><br><span class="line">						*(DWORD*)pIAT = (DWORD)MyMessageBox;</span><br><span class="line">						VirtualProtect(pIAT, <span class="number">4</span>, dwOld, &amp;dwOld);</span><br><span class="line">						<span class="keyword">return</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">//下一个函数</span></span><br><span class="line">				pINT++;</span><br><span class="line">				pIAT++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//下一个模块</span></span><br><span class="line">		pImport++;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">UnHook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	DWORD dwOld;</span><br><span class="line">	VirtualProtect((LPVOID)g_IATAddr, <span class="number">4</span>, PAGE_READWRITE, &amp;dwOld);</span><br><span class="line">	*(DWORD*)g_IATAddr = g_FunOldAddr;</span><br><span class="line">	VirtualProtect((LPVOID)g_IATAddr, <span class="number">4</span>, dwOld, &amp;dwOld);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> WINAPI <span class="title">MyMessageBox</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ HWND hWnd,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ LPCWSTR lpText,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_opt_ LPCWSTR lpCaption,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ UINT uType)</span> </span>&#123;</span><br><span class="line">	lpText = _T(<span class="string">"HOOK!"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//卸载钩子</span></span><br><span class="line">	UnHook();</span><br><span class="line">	<span class="comment">//调用MessageBox</span></span><br><span class="line">	<span class="keyword">int</span> nReturn = MessageBox(hWnd, lpText, lpCaption, uType);</span><br><span class="line">	OnHook(<span class="string">"MessageBoxW"</span>, <span class="string">"user32.dll"</span>);</span><br><span class="line">	<span class="keyword">return</span> nReturn;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">BOOL APIENTRY <span class="title">DllMain</span><span class="params">(HMODULE hModule,</span></span></span><br><span class="line"><span class="function"><span class="params">	DWORD  ul_reason_for_call,</span></span></span><br><span class="line"><span class="function"><span class="params">	LPVOID lpReserved</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">switch</span> (ul_reason_for_call)</span><br><span class="line">	&#123;</span><br><span class="line">	<span class="keyword">case</span> DLL_PROCESS_ATTACH:</span><br><span class="line">		OnHook(<span class="string">"MessageBoxW"</span>, <span class="string">"user32.dll"</span>);</span><br><span class="line">		<span class="comment">//case DLL_THREAD_ATTACH:</span></span><br><span class="line">		<span class="comment">//case DLL_THREAD_DETACH:</span></span><br><span class="line">		<span class="comment">//case DLL_PROCESS_DETACH:</span></span><br><span class="line">		<span class="comment">//	UnHook();</span></span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Injection.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Inject</span><span class="params">(<span class="keyword">char</span>* pDllPath, DWORD dwPid)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//1.打开进程获取句柄</span></span><br><span class="line">	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwPid);</span><br><span class="line">	<span class="keyword">if</span> (!hProcess)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"句柄打开失败\n"</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//2. 再目标进程中申请足够大的内存，存储DLL的全路径</span></span><br><span class="line">	LPVOID lpBuf = VirtualAllocEx(hProcess, <span class="literal">NULL</span>,</span><br><span class="line">		<span class="built_in">strlen</span>(pDllPath), MEM_COMMIT, PAGE_READWRITE);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (!lpBuf)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"内存申请失败\n"</span>);</span><br><span class="line">		CloseHandle(hProcess);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//3.把DLL全路径写入进去</span></span><br><span class="line">	DWORD dwWrite;</span><br><span class="line">	WriteProcessMemory(hProcess, lpBuf,</span><br><span class="line">		pDllPath, <span class="built_in">strlen</span>(pDllPath), &amp;dwWrite);</span><br><span class="line">	<span class="comment">//4.创建远程线程</span></span><br><span class="line">	HANDLE hThread = CreateRemoteThread(hProcess, <span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">		(LPTHREAD_START_ROUTINE)LoadLibraryA, lpBuf, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//5.等待线程结束</span></span><br><span class="line">	WaitForSingleObject(hThread, <span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//6.释放内存</span></span><br><span class="line">	VirtualFreeEx(hProcess, lpBuf, <span class="number">0</span>, MEM_RELEASE);</span><br><span class="line">	CloseHandle(hProcess);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	DWORD dwPid = <span class="number">5668</span>;<span class="comment">//目标进程PID</span></span><br><span class="line">	<span class="keyword">char</span>* pDllPath = (<span class="keyword">char</span>*)<span class="string">"D:\\Demo\\Injection\\Debug\\Dll1.dll"</span>;<span class="comment">//要注入的DLL</span></span><br><span class="line"></span><br><span class="line">	Inject(pDllPath, dwPid);</span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191117162702982.png" alt="image-20191117162702982"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/win32/" rel="tag"># win32</a>
+          
+            <a href="/tags/windows%E5%8E%9F%E7%90%86/" rel="tag"># windows原理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/16/windows%E5%8E%9F%E7%90%8604/" rel="next" title="windows原理04">
+                <i class="fa fa-chevron-left"></i> windows原理04
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/19/windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B/" rel="prev" title="windows进程线程">
+                windows进程线程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Kncoked</p>
+              <p class="site-description motion-element" itemprop="description">Knocked的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#dll注入技术"><span class="nav-number">1.</span> <span class="nav-text">dll注入技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#windows下的Hook技术"><span class="nav-number">2.</span> <span class="nav-text">windows下的Hook技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#系统消息Hook"><span class="nav-number">2.1.</span> <span class="nav-text">系统消息Hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义钩子"><span class="nav-number">2.2.</span> <span class="nav-text">自定义钩子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内联HOOK"><span class="nav-number">2.2.1.</span> <span class="nav-text">内联HOOK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IAT-HOOK"><span class="nav-number">2.2.2.</span> <span class="nav-text">IAT HOOK</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kncoked</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

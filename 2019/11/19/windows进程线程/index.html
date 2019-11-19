@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="win32," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="内核对象windows操作系统是以C语言和汇编语言编写的，但是他是一个面向对象的操作系统，在系统中充满了对象的概念。 什么是内核对象？内核对象的本质是一个个内核层的结构体变量。但是windows系统不希望程序员能够直接定义，访问，修改这些结构体变量，他们都被保护了起来，所以在使用这些对象的时候，都有一个共同点，就是都要先得到他们的句柄，再通过调用相应的API去操作这些对象。 内核对象的公共特点所有">
+<meta name="keywords" content="win32">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows进程线程">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B&#x2F;index.html">
+<meta property="og:site_name" content="Knocked_Blog">
+<meta property="og:description" content="内核对象windows操作系统是以C语言和汇编语言编写的，但是他是一个面向对象的操作系统，在系统中充满了对象的概念。 什么是内核对象？内核对象的本质是一个个内核层的结构体变量。但是windows系统不希望程序员能够直接定义，访问，修改这些结构体变量，他们都被保护了起来，所以在使用这些对象的时候，都有一个共同点，就是都要先得到他们的句柄，再通过调用相应的API去操作这些对象。 内核对象的公共特点所有">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B&#x2F;image-20191118143045373.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B&#x2F;image-20191118143057613.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B&#x2F;image-20191118144057516.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B&#x2F;image-20191118145004025.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B&#x2F;image-20191118150336270.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B&#x2F;image-20191118162619724.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B&#x2F;image-20191118164505336.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B&#x2F;image-20191118164609290.png">
+<meta property="og:updated_time" content="2019-11-19T13:58:52.340Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;19&#x2F;windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B&#x2F;image-20191118143045373.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/19/windows进程线程/"/>
+
+
+
+
+
+  <title>windows进程线程 | Knocked_Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Knocked_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">HelloNewWorld</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/19/windows%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kncoked">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Knocked_Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">windows进程线程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-19T01:30:00+08:00">
+                2019-11-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/win32/" itemprop="url" rel="index">
+                    <span itemprop="name">win32</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="内核对象"><a href="#内核对象" class="headerlink" title="内核对象"></a>内核对象</h1><p>windows操作系统是以C语言和汇编语言编写的，但是他是一个面向对象的操作系统，在系统中充满了对象的概念。</p>
+<h2 id="什么是内核对象？"><a href="#什么是内核对象？" class="headerlink" title="什么是内核对象？"></a>什么是内核对象？</h2><p>内核对象的本质是一个个内核层的结构体变量。但是windows系统不希望程序员能够直接定义，访问，修改这些结构体变量，他们都被保护了起来，所以在使用这些对象的时候，都有一个共同点，就是都要先得到他们的句柄，再通过调用相应的API去操作这些对象。</p>
+<h2 id="内核对象的公共特点"><a href="#内核对象的公共特点" class="headerlink" title="内核对象的公共特点"></a>内核对象的公共特点</h2><p>所有的内核对象都遵循统一的使用模式</p>
+<p>第一步：创建对象：</p>
+<p>创建一个内核对象，一般都是使用CreateXXX的方式，比如：</p>
+<table>
+<thead>
+<tr>
+<th>CreateProcess</th>
+<th>创建进程</th>
+<th>CreateThread</th>
+<th>创建线程</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CreateFile</td>
+<td>创建文件</td>
+<td>CreateFileMapping</td>
+<td>创建文件映射</td>
+</tr>
+<tr>
+<td>CreateEvent</td>
+<td>创建事件对象</td>
+<td>CreateSemaphore</td>
+<td>创建信号量</td>
+</tr>
+</tbody></table>
+<p>第二步：打开对象，得到句柄 (可与第一步合并在一起，表示创建的时候就打开)</p>
+<p>第三步：通过API访问对象</p>
+<p>第四步：关闭句柄</p>
+<p>第五部：句柄全部关完，对象自动销毁</p>
+<p>所有的内核对象都属于操作系统内核，可以在不同的进程间访问到，俗称：内核对象是跨进程的。很多时候，我们都需要再不同的进程中访问同一个内核对象，比如进程间的同步，进程间共享数据等。</p>
+<p>每一个内核对象都有一个引用计数，当有一个进程创建或者打开了此内核对象，那么内核对象的引用计数自增。进程终止，或者关闭了句柄，引用计数自减1(CloseHandle)，当引用计数自减为0，那么内核对象会自动销毁(CloseHandle)。</p>
+<p>对象的安全属性(SECURITY_ATTRIBUTE)，每一个内核对象在创建的时候，都是有一个安全属性，这个安全属性标识了，怎么区使用这个对象，比如对象是可读可写，对象所具有的权限等等。一旦内核对象以某种属性创建，之后便只能再规定的权限内工作，假如传NULL的话，就会指定一个默认的属性。</p>
+<h1 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h1><p>进程是windows操作系统中一个重要的概念，很多时候，我们喜欢把一个exe文件想象成一个进程的全部，认为进程不过是.exe在内存中的样子，其实进程所涵盖的东西远远多于这个exe文件。一个进程至少包含了：</p>
+<ul>
+<li>一个虚拟的内存空间(4GB)</li>
+<li>在内存空间中，有映射进来的.exe文件，所有和程序运行相关的.dll文件，映射在内存中的exe与dll我们称之为模块</li>
+<li>进程内核对象，操作系统使用此对象来管理进程。内核对象中至少包含了，进程的内核对象句柄表，进程的权限，<strong>进程的全局唯一ID值</strong>。</li>
+<li>至少有一个运行着的线程。</li>
+</ul>
+<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><p>线程是执行代码的一个单元，从CPU的角度来说，所有的线程一视同仁，不会因为你是某一个进程的线程而另眼相看，根据线程的优先级选择执行哪一个线程，分配其时间片，当此线程的时间片用完之后，再选择下一个线程执行</p>
+<p>一般情况下，线程所执行的代码是属于某一进程的，同一个进程的所有线程共享进程内的所有资源：包括虚拟内存空间，内核对象句柄表等</p>
+<p>还有一种线程叫做内核线程，其执行的代码全部是再内核空间。</p>
+<p>我们通常把第一个执行的线程叫做主线程，主线程一旦退出整个程序就会退出，线程最少由一个线程内核对象，和一个线程的栈帧组成。</p>
+<h2 id="如何创建一个线程"><a href="#如何创建一个线程" class="headerlink" title="如何创建一个线程"></a>如何创建一个线程</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Windows.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">DWORD WINAPI <span class="title">funThread</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%d\n"</span>, lpParam);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//让出线程的时间片</span></span><br><span class="line">		Sleep(<span class="number">100</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hThread = CreateThread(</span><br><span class="line">		<span class="literal">NULL</span>,         <span class="comment">//安全属性，NULL表示默认</span></span><br><span class="line">		<span class="literal">NULL</span>,         <span class="comment">//栈帧的大小，默认是4M</span></span><br><span class="line">		funThread,	  <span class="comment">//回调函数，指明线程的其实位置</span></span><br><span class="line">		(LPVOID)<span class="number">123</span>,  <span class="comment">//传递给线程函数的参数</span></span><br><span class="line">		<span class="literal">NULL</span>,		  <span class="comment">//线程的创建标志，使用较多的是挂起</span></span><br><span class="line">		<span class="literal">NULL</span>		  <span class="comment">//线程的ID，不需要可以传NULL</span></span><br><span class="line">	);</span><br><span class="line">	Sleep(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//挂起和恢复线程</span></span><br><span class="line">	<span class="comment">//每一个线程都有一个挂起计数，每挂起一次，计数+1</span></span><br><span class="line">	<span class="comment">//当挂起计数为0线程继续运行</span></span><br><span class="line">	SuspendThread(hThread);</span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	ResumeThread(hThread);</span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="comment">//终止线程</span></span><br><span class="line">	TerminateThread(hThread, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//为了确保主线程执行完毕前其他线程都正常退出</span></span><br><span class="line">	<span class="comment">//需要等待其他线程执行完毕</span></span><br><span class="line">	<span class="keyword">if</span> (hThread != <span class="literal">NULL</span>)</span><br><span class="line">		WaitForSingleObject(hThread, INFINITE);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="多线程问题"><a href="#多线程问题" class="headerlink" title="多线程问题"></a>多线程问题</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Windows.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> g_Number = <span class="number">0</span>;<span class="comment">//可以被所有线程访问到的全局变量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//给g_Number自增100000次</span></span><br><span class="line"><span class="function">DWORD WINAPI <span class="title">threadPorc</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		g_Number++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hThread1, hThread2;</span><br><span class="line"></span><br><span class="line">	hThread1 = CreateThread(<span class="literal">NULL</span>, <span class="literal">NULL</span>, </span><br><span class="line">		threadPorc, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">	hThread2 = CreateThread(<span class="literal">NULL</span>, <span class="literal">NULL</span>, </span><br><span class="line">		threadPorc, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (hThread1 != <span class="literal">NULL</span> &amp;&amp; hThread2 != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		WaitForSingleObject(hThread1, INFINITE);</span><br><span class="line">		WaitForSingleObject(hThread2, INFINITE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>, g_Number);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191118143045373.png" alt="image-20191118143045373"></p>
+<p><img src="image-20191118143057613.png" alt="image-20191118143057613"></p>
+<p>可以看出，结果的值是不确定的。但是永远达不到200000(循环必须要足够大)</p>
+<p>反汇编窗口可以看到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">g_Number++;</span><br><span class="line"> mov         eax,dword ptr [g_Number (0B69148h)]  </span><br><span class="line"> add         eax,1  </span><br><span class="line"> mov         dword ptr [g_Number (0B69148h)],eax</span><br></pre></td></tr></table></figure>
+
+<p>由于<code>g_Number++;</code>不是院子操作，所以可能出现如下问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[1]: mov eax,dword ptr [g_Number]	// g_Number(0)</span><br><span class="line">[1]: add eax,1						// g_Number(0) eax(1)</span><br><span class="line">[1]: mov dword ptr [g_Number],eax	// g_Number(1) eax(1)</span><br><span class="line"></span><br><span class="line">[2]: mov eax,dword ptr [g_Number]	// g_Number(1)</span><br><span class="line">[2]: add eax,1						// g_Number(1) eax(2)</span><br><span class="line">[2]: mov dword ptr [g_Number],eax	// g_Number(2) eax(2)</span><br><span class="line"></span><br><span class="line">[1]: mov eax,dword ptr [g_Number]	// g_Number(2)</span><br><span class="line">[1]: add eax,1						// g_Number(2) eax(3)</span><br><span class="line"></span><br><span class="line">[2]: mov eax,dword ptr [g_Number]	// g_Number(2)</span><br><span class="line">[2]: add eax,1						// g_Number(2) eax(3)</span><br><span class="line">[2]: mov dword ptr [g_Number],eax	// g_Number(3) eax(3)</span><br><span class="line"></span><br><span class="line">[1]: mov dword ptr [g_Number],eax	// g_Number(3) eax(3)</span><br></pre></td></tr></table></figure>
+
+<p>对于两个线程同时做自增而言，有可能线程1刚执行完add eax,1 还未来得及将自增后的结果写入，线程2开始执行，并完成了很多自增操作，当线程1再此执行的时候，<strong>将eax的值写回到全局变量中</strong>，然后发现，刚才线程2所做的都是无用功。因为线程的调度是不可控的。</p>
+<h2 id="原子操作"><a href="#原子操作" class="headerlink" title="原子操作"></a>原子操作</h2><p>所谓的原子操作就是指一个线程对于某一个资源所做操作的时候能够确保没有其他的线程对此资源进行访问</p>
+<p>本质就是将C语言的代码解释成了单条的汇编指令</p>
+<p>缺陷：只支持堆最长8字节的整数类型执行算数运算</p>
+<p>应用场景：在进程inlinehook的时候可以解决线程安全</p>
+<p>函数：Interlockxxx</p>
+<table>
+<thead>
+<tr>
+<th>InterlockedIncrement</th>
+<th>给一个整形变量自增1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>InterlockedExchangeAdd</td>
+<td>为一个整形变量以原子方式加上一个数</td>
+</tr>
+<tr>
+<td>InterlockedExchange</td>
+<td>将一个32位数以原子方式赋值给另外一个数</td>
+</tr>
+<tr>
+<td>InterlockedExchange64</td>
+<td>将一个64位数以原子方式赋值给另外一个数</td>
+</tr>
+<tr>
+<td>InterlockedCompareExchange</td>
+<td>如果两个数相等，就将另外一个数赋值，不相等则无效果</td>
+</tr>
+</tbody></table>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Windows.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> g_Number = <span class="number">0</span>;<span class="comment">//形参类型为long</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//给g_Number自增100000次</span></span><br><span class="line"><span class="function">DWORD WINAPI <span class="title">threadPorc</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		InterlockedIncrement(&amp;g_Number);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hThread1, hThread2;</span><br><span class="line">	</span><br><span class="line">	hThread1 = CreateThread(<span class="literal">NULL</span>, <span class="literal">NULL</span>, </span><br><span class="line">		threadPorc, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">	hThread2 = CreateThread(<span class="literal">NULL</span>, <span class="literal">NULL</span>, </span><br><span class="line">		threadPorc, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (hThread1 != <span class="literal">NULL</span> &amp;&amp; hThread2 != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		WaitForSingleObject(hThread1, INFINITE);		</span><br><span class="line">		WaitForSingleObject(hThread2, INFINITE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>, g_Number);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果</p>
+<p><img src="image-20191118144057516.png" alt="image-20191118144057516"></p>
+<h2 id="临界区-关键段"><a href="#临界区-关键段" class="headerlink" title="临界区(关键段)"></a>临界区(关键段)</h2><p>原子操作的弱点：<strong>只能使得一个整形数据做简单算数运算的时候是原子的</strong></p>
+<p>但是大部分时候我们其实是希望保护一段代码，使得这一段代码是原子操作，而并非是某一个变量的操作，使用临界区恰好能够解决这个问题</p>
+<p>临界区的概念：临界区使用<code>EnterCriticalSection</code>和<code>LeaveCriticalSection</code>形成一个保护区来保护代码，是一个结构体，通过结构体内的一些字段判断执行当前代码的线程是否是对应的线程，如果不是，就阻塞。拥有(线程拥有者)的概念。</p>
+<p>优点：可以执行一段代码，执行速度快</p>
+<p>缺点：拥有该临界区的线程一旦崩溃，就会产生死锁</p>
+<p>在使用临界区前，需要调用<code>InitializeCriticalSection</code>初始化一个临界区，使用完后需要调用<code>DeleteCriticalSection</code>销毁临界区</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Windows.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> g_Number = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//临界区结构体，是一个不确定的结构体，使用前必须初始化</span></span><br><span class="line"><span class="comment">//LONG LockCount;  如果被使用了就是-2，否则是-1</span></span><br><span class="line"><span class="comment">//CRLONG RecursionCount; 表示当前进入了多少次</span></span><br><span class="line"><span class="comment">//HANDLE OwningThread; 当前被哪一个线程引用了</span></span><br><span class="line">CRITICAL_SECTION CriticalSection = &#123; <span class="number">0</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//给g_Number自增100000次</span></span><br><span class="line"><span class="function">DWORD WINAPI <span class="title">threadPorc</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//进入临界区，写在需要被保护的代码段的上方</span></span><br><span class="line">		EnterCriticalSection(&amp;CriticalSection);</span><br><span class="line">		<span class="comment">//需要被保护的代码</span></span><br><span class="line">		g_Number++;</span><br><span class="line">		<span class="comment">//离开临界区</span></span><br><span class="line">		<span class="comment">//进入了一个临界区多少次，就应该相应的离开多少次</span></span><br><span class="line">		LeaveCriticalSection(&amp;CriticalSection);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hThread1, hThread2;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//初始化临界区</span></span><br><span class="line">	InitializeCriticalSection(&amp;CriticalSection);</span><br><span class="line"></span><br><span class="line">	hThread1 = CreateThread(<span class="literal">NULL</span>, <span class="literal">NULL</span>, </span><br><span class="line">		threadPorc, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">	hThread2 = CreateThread(<span class="literal">NULL</span>, <span class="literal">NULL</span>, </span><br><span class="line">		threadPorc, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (hThread1 != <span class="literal">NULL</span> &amp;&amp; hThread2 != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		WaitForSingleObject(hThread1, INFINITE);		</span><br><span class="line">		WaitForSingleObject(hThread2, INFINITE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//使用后需要释放</span></span><br><span class="line">	DeleteCriticalSection(&amp;CriticalSection);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>, g_Number);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p><img src="image-20191118145004025.png" alt="image-20191118145004025"></p>
+<h2 id="等待函数"><a href="#等待函数" class="headerlink" title="等待函数"></a>等待函数</h2><p>等待函数可以等待一切可等待的内核对象，可等待的内核对象有两个状态，一个叫做激发态，另一个叫做非激发态</p>
+<p>等待函数的作用：使一个线程进入到等待状态，直到制定的内核对象被触发为止</p>
+<p>使用的函数：</p>
+<ul>
+<li><p>单个：WaitForSingleObject(内核对象句柄，等待时长)</p>
+</li>
+<li><p>一组：WaitForMultipleObjects()</p>
+</li>
+</ul>
+<p>等待函数的返回值</p>
+<table>
+<thead>
+<tr>
+<th>WAIT_ABANDONED</th>
+<th>互斥体的情况下有用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>WAIT_OBJECT_0</td>
+<td>等到了内核对象被设置为激发态</td>
+</tr>
+<tr>
+<td>WAIT_TIMEOUT</td>
+<td>超时了</td>
+</tr>
+<tr>
+<td>WAIT_FAILED</td>
+<td>失败了</td>
+</tr>
+</tbody></table>
+<p>等待函数的副作用：</p>
+<ul>
+<li>改变被等待内核对象的信号状态(有信号-&gt;无信号)</li>
+<li>基于这个原理才会有后面的内核对象同步</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Windows.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function">DWORD WINAPI <span class="title">threadPorc1</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%d - %d\n"</span>, (DWORD)lpParam, i + <span class="number">1</span>);</span><br><span class="line">		Sleep(<span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">DWORD WINAPI <span class="title">threadPorc2</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%d - %d\n"</span>, (DWORD)lpParam, i + <span class="number">1</span>);</span><br><span class="line">		Sleep(<span class="number">100</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hThread[<span class="number">10</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (i % <span class="number">2</span>)</span><br><span class="line">			hThread[i] = CreateThread(</span><br><span class="line">				<span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">				threadPorc1,</span><br><span class="line">				(LPVOID)(i + <span class="number">1</span>), <span class="literal">NULL</span>, <span class="literal">NULL</span></span><br><span class="line">			);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			hThread[i] = CreateThread(</span><br><span class="line">				<span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">				threadPorc2,</span><br><span class="line">				(LPVOID)(i + <span class="number">1</span>), <span class="literal">NULL</span>, <span class="literal">NULL</span></span><br><span class="line">			);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//需要等待的内核对象的数量(数组元素的个数)</span></span><br><span class="line">	<span class="comment">//保存所有需要等待的内核对象的数组</span></span><br><span class="line">	<span class="comment">//是否等待所有的内核对象成为有信号状态</span></span><br><span class="line">	<span class="comment">//等待时长</span></span><br><span class="line">	WaitForMultipleObjects(<span class="number">10</span>, hThread, <span class="literal">true</span>, INFINITE);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//什么时候函数会返回</span></span><br><span class="line">	<span class="comment">// 目标对象变成有信号(激发)状态</span></span><br><span class="line">	<span class="comment">// 达到了等待时长，函数返回等待失败</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p><img src="image-20191118150336270.png" alt="image-20191118150336270"></p>
+<h2 id="互斥体"><a href="#互斥体" class="headerlink" title="互斥体"></a>互斥体</h2><p>很多时候，在一个进程中，我们使用临界区能够解决很多的问题了，但是临界区也有它的缺点：</p>
+<ul>
+<li>临界区是在一个进程内有效的，无法在多线程的环境下进行同步</li>
+<li>一旦进入临进区的线程崩溃了，导致临界区无法释放，那么其他线程也就无法再进入临界区，全部会被卡住</li>
+</ul>
+<p>所以使用互斥体来解决这些问题</p>
+<p>互斥体是一个内核对象</p>
+<p>优点：拥有临界区的特性(线程拥有者)，但是不会产生死锁，且跨进程</p>
+<p>缺点：慢</p>
+<p>应用场景：用于预防应用双开</p>
+<p>相关函数：</p>
+<ul>
+<li>保护：WaitforSingleObject</li>
+<li>离开：RealseMutex</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Windows.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> g_Number = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建互斥体的函数</span></span><br><span class="line">HANDLE hMutex = CreateMutex(</span><br><span class="line">	<span class="literal">NULL</span>,  <span class="comment">//安全属性</span></span><br><span class="line">	FALSE, <span class="comment">//是否设置为当前线程拥有者(设置了就是无信号)</span></span><br><span class="line">	<span class="string">L"my_mutex"</span> <span class="comment">//互斥体的名称，用于打开</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始(有信号)-&gt;等待函数(有信号-&gt;无信号)-&gt;Release(无信号-&gt;有信号)</span></span><br><span class="line"></span><br><span class="line"><span class="function">DWORD WINAPI <span class="title">threadProc1</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//进入受保护的代码(有信号-&gt;无信号)</span></span><br><span class="line">		WaitForSingleObject(hMutex, INFINITE);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//需要被保护的代码</span></span><br><span class="line">		g_Number++;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//将互斥体设置为有信号</span></span><br><span class="line">		ReleaseMutex(hMutex);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//对线程拥有者的测试</span></span><br><span class="line"><span class="function">DWORD WINAPI <span class="title">threadProc2</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//拥有指定互斥体的线程，可以无限次的等待互斥体</span></span><br><span class="line">		WaitForSingleObject(hMutex, INFINITE);</span><br><span class="line">		g_Number++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hThread1, hThread2;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//测试线程拥有者</span></span><br><span class="line">	HANDLE hThread3 = CreateThread(</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">		threadProc2,</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span></span><br><span class="line">	);</span><br><span class="line">	WaitForSingleObject(hThread3, INFINITE);</span><br><span class="line"></span><br><span class="line">	hThread1 = CreateThread(</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">		threadProc1,</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span></span><br><span class="line">	);</span><br><span class="line">	hThread2 = CreateThread(</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">		threadProc1,</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span></span><br><span class="line">	);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (hThread1 != <span class="literal">NULL</span> &amp;&amp; hThread2 != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		WaitForSingleObject(hThread1, INFINITE);</span><br><span class="line">		WaitForSingleObject(hThread2, INFINITE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>, g_Number);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p><img src="image-20191118162619724.png" alt="image-20191118162619724"></p>
+<p>对于互斥体，有三个内容非常重要：</p>
+<ul>
+<li>他有两个状态，激发态和非激发态</li>
+<li>它有一个概念，叫做线程拥有权，与临界区类似</li>
+<li>等待函数等待互斥体的副作用，将互斥体的拥有者设置为本线程，将互斥体的状态设置为非激发态</li>
+</ul>
+<p>于是一般情况下出现了下面的情况：</p>
+<ul>
+<li>当互斥体没有被任何一个线程拥有时，它处于激发态，也可以说锁是打开的</li>
+<li>当一个线程A调用了<code>WaitforSingleObject</code>时，<code>WaitforSingleObject</code>函数会立刻返回，并将互斥体设置为非激发态，互斥体被锁住，此线程获得拥有权</li>
+<li>后面的时刻，任何其他调用<code>WaitforSingleObject</code>函数的线程无法获得拥有权，必须一直等待互斥体，他们全都被阻塞</li>
+<li>当线程A调用<code>RealseMutex</code>函数，将互斥体释放，即为互斥体解锁，此时互斥体不被任何一个线程拥有，并被设置为激发态，会在等待它的线程中随机选择一个重复最开始的情况</li>
+</ul>
+<p>互斥体同一时刻只能被一个线程拥有，在WaitForxxx与ReleaseMutex函数之间的代码被保护了起来，就像在临界区内一样。所不同的是，互斥体是一个内核对象，使得其能够在多进程间进行同步</p>
+<p>相比于临界区的另外一个优势是，当锁住互斥体的线程意外崩溃，没有调用ReleaseMutex，互斥体会自动被设置为不被任何线程拥有，并处于激发态</p>
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><p>事件的使用给予了成员很大的权限，可以设置等待函数对于此事件对象有没有副作用。也可以手动设置事件对象为激发态还是非激发态</p>
+<p>互斥：通常是多个线程访问同一个资源</p>
+<p>同步：通常是需要多个线程按照指定顺序执行</p>
+<p>事件对象也是一个内核对象</p>
+<p>特点：可以设置为手动操作，也可以设置为自动操作</p>
+<p>缺点：慢</p>
+<p>需要用到的函数：</p>
+<table>
+<thead>
+<tr>
+<th>CreateEventW</th>
+<th>创建一个事件对象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OpenEventA</td>
+<td>打开一个事件对象</td>
+</tr>
+<tr>
+<td>SetEvent</td>
+<td>将事件对象设置为激发态</td>
+</tr>
+<tr>
+<td>ResetEvent</td>
+<td>将事件对象设置为非激发态，注意：不是重新设置为激发态的意思</td>
+</tr>
+<tr>
+<td>PulseEvent</td>
+<td>将事件对象设置为激发态</td>
+</tr>
+<tr>
+<td>CloseHandle</td>
+<td>关闭事件对象，将事件对象引用计数减1，减为0时，事件销毁，这个是内核对象的通用关闭方式</td>
+</tr>
+</tbody></table>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Windows.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> g_Number = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">HANDLE hEvent = CreateEvent(</span><br><span class="line">	<span class="literal">NULL</span>,      <span class="comment">//安全属性</span></span><br><span class="line">	FALSE,	   <span class="comment">//是否是手动状态，一旦设置成手动状态，等待函数就没有副作用了</span></span><br><span class="line">	TRUE,	   <span class="comment">//事件的初始信号</span></span><br><span class="line">	<span class="string">L"my_event"</span><span class="comment">//互斥体的名称，用于打开</span></span><br><span class="line">);</span><br><span class="line"><span class="comment">//当设置为手动状态之后，通常就不能用于互斥了，会被用于同步</span></span><br><span class="line"><span class="comment">// 原因：ResetEvent函数并不是原子操作</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//自动:初始(有信号)-&gt;等待函数(有信号-&gt;无信号)-&gt;Release(无信号-&gt;有信号)</span></span><br><span class="line"><span class="comment">//手动:初始(有信号)-&gt;等待函数(有信号)-&gt;Release(有信号)</span></span><br><span class="line"></span><br><span class="line"><span class="function">DWORD WINAPI <span class="title">threadProc</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//进入受保护的代码(有信号-&gt;无信号)</span></span><br><span class="line">		WaitForSingleObject(hEvent, INFINITE);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//需要被保护的代码</span></span><br><span class="line">		g_Number++;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//设置为有信号</span></span><br><span class="line">		SetEvent(hEvent);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE hThread1, hThread2;</span><br><span class="line"></span><br><span class="line">	hThread1 = CreateThread(</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">		threadProc,</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span></span><br><span class="line">	);</span><br><span class="line">	hThread2 = CreateThread(</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">		threadProc,</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span></span><br><span class="line">	);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (hThread1 != <span class="literal">NULL</span> &amp;&amp; hThread2 != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		WaitForSingleObject(hThread1, INFINITE);</span><br><span class="line">		WaitForSingleObject(hThread2, INFINITE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>, g_Number);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当CreateEvent的第二个参数为TRUE(手动)，并且没有SetEvent(hEvent)的结果</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191118164505336.png" alt="image-20191118164505336"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当CreateEvent的第二个参数为FALSE(自动)，并且设置SetEvent(hEvent)的结果</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191118164609290.png" alt="image-20191118164609290"></p>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>信号量是一个内核对象</p>
+<p>特点：可以进行多次的上锁操作</p>
+<p>缺点：慢</p>
+<p>应用场景：控制同时执行的线程的最大个数 ， 信号量通常不会单独使用，一般要结合互斥体或事件</p>
+<table>
+<thead>
+<tr>
+<th>CreateSemaphore</th>
+<th>创建信号量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OpenSemaphore</td>
+<td>打开信号量</td>
+</tr>
+<tr>
+<td>ReleaseSemaphore</td>
+<td>释放信号量</td>
+</tr>
+<tr>
+<td>CloseHandle</td>
+<td>关闭信号量</td>
+</tr>
+</tbody></table>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Windows.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"pch.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">long</span> g_Number = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">HANDLE hSemaphore = CreateSemaphore(</span><br><span class="line">	<span class="literal">NULL</span>,			<span class="comment">//安全属性</span></span><br><span class="line">	<span class="number">20</span>,				<span class="comment">//初始化的信号个数</span></span><br><span class="line">	<span class="number">20</span>,				<span class="comment">//总的信号个数(数量没有限制)</span></span><br><span class="line">	<span class="string">L"my_semaphore"</span>	<span class="comment">//名称</span></span><br><span class="line">);</span><br><span class="line"><span class="comment">//初始(有n个信号)-&gt;等待函数(信号n-&gt;无信号n-1)-&gt;Release(信号n-&gt;信号n-1)</span></span><br><span class="line"></span><br><span class="line"><span class="function">DWORD WINAPI <span class="title">threadProc</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//进入受保护的代码(将信号量的信号数量-1)</span></span><br><span class="line">		WaitForSingleObject(hSemaphore, INFINITE);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//需要被保护的代码</span></span><br><span class="line">		g_Number++;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//将信号量的信号数量+1</span></span><br><span class="line">		ReleaseSemaphore(</span><br><span class="line">			hSemaphore,	</span><br><span class="line">			<span class="number">1</span>,			<span class="comment">//将信号量加上一个值</span></span><br><span class="line">			<span class="literal">NULL</span>		<span class="comment">//增加信号量之前一共多少个信号，NULL表示不需要知道</span></span><br><span class="line">		);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出参数</span></span><br><span class="line"><span class="function">DWORD WINAPI <span class="title">threadProc2</span><span class="params">(LPVOID lpParam)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		WaitForSingleObject(hSemaphore, INFINITE);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%d\n"</span>, lpParam);</span><br><span class="line">		Sleep(<span class="number">100</span>);</span><br><span class="line">		ReleaseSemaphore(hSemaphore, <span class="number">1</span>, <span class="literal">NULL</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HANDLE thread[<span class="number">1000</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) </span><br><span class="line">		thread[i] = CreateThread(</span><br><span class="line">			<span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">			threadProc2,</span><br><span class="line">			(LPVOID)(i + <span class="number">1</span>),</span><br><span class="line">			<span class="literal">NULL</span>, <span class="literal">NULL</span></span><br><span class="line">		);</span><br><span class="line">	WaitForMultipleObjects(<span class="number">1000</span>, thread, <span class="literal">true</span>, INFINITE);</span><br><span class="line"></span><br><span class="line">	HANDLE hThread1, hThread2;</span><br><span class="line"></span><br><span class="line">	hThread1 = CreateThread(</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">		threadProc,</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span></span><br><span class="line">	);</span><br><span class="line">	hThread2 = CreateThread(</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>,</span><br><span class="line">		threadProc,</span><br><span class="line">		<span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span></span><br><span class="line">	);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (hThread1 != <span class="literal">NULL</span> &amp;&amp; hThread2 != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		WaitForSingleObject(hThread1, INFINITE);</span><br><span class="line">		WaitForSingleObject(hThread2, INFINITE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d"</span>, g_Number);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于信号量，有这么几方面是需要掌控的</p>
+<p>信号量有一个当前信号数，只要当前信号书部位0，信号量就处于激发态</p>
+<p>当有线程调用了WaitForSingleObject函数，其副作用是将当前信号数减1，即为信号量上了一把锁</p>
+<p>此时加入信号数量不为0，那么再有线程调用WaitForSingleObject函数，又会将当前信号数减1，从而再讲信号量上一把锁</p>
+<p>调用ReleaseSemaphore会将当前信号数加1，即打开一把锁</p>
+<p>再当前信号数为0的时候，即信号量被完全锁住，再有线程调用WaitForSingleObject时，就会被阻塞，直到有线程释放信号量，打开了一把锁</p>
+<p>信号量有一个最大信号数，释放信号量不会使得当前信号数超过最大信号数，即在信号量上运行的线程的个数有一个数量限制</p>
+<p>信号量不同于互斥体的是，互斥体的等待与释放应该在用一个线程内成对出现，信号量的释放动作，可以在任何一个线程中，从而使得其他线程得以执行</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>原子操作：简单的同步机制，只能队4个字节的数据进行算数运算</p>
+<p>临界区：队一段代码实现保护操作，只能在一个进程中的不同线程使用。无法检测由于线程崩溃造成的临界区无法释放的问题。有拥有者线程的概念，对于拥有者，可以多次进入临界区，相应的也需要多次离开临界区，否则容易造成死锁(其他线程永远等待)</p>
+<p>互斥体：是一个内核对象，可以在不同的进程的线程中实现对于一段代码的保护。能够检测由于线程崩溃造成的互斥体释放问题。有拥有者线程的概念，对于拥有者，可以多次给互斥体上锁(即多次等待)，相应的也需要多次解锁(即释放互斥体)，否则容易造成死锁(其他线程也会永远等待)，并且，<strong>它只能被拥有者线程释放，故而多线程间的不同回调函数的同步使用互斥体可能会出现问题</strong>。</p>
+<p>信号量：是一个内核对象，没有拥有者的概念，可以控制多个线程同时访问被保护的代码。并且给线程数量设置一个上限(即被锁定的次数)</p>
+<p>事件：是一个内核对象，没有拥有者的概念，自主性非常高，特性完全可以由程序员设定，可以封装自己的同步机制。</p>
+<p>原子操作：</p>
+<table>
+<thead>
+<tr>
+<th>InterlockedIncrement</th>
+<th>自增</th>
+<th>InterlockedIncrement(&amp;g_Number)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>InterlockedDecrement</td>
+<td>自减</td>
+<td>InterlockedDecrement(&amp;g_Number)</td>
+</tr>
+<tr>
+<td>InterlockedExchangeAdd</td>
+<td>加法/减法</td>
+<td>InterlockedExchangeAdd(&amp;g_Number,256L)</td>
+</tr>
+<tr>
+<td>InterlockedExchange</td>
+<td>赋值</td>
+<td>InterlockedExchange(&amp;g_Number,256L)</td>
+</tr>
+</tbody></table>
+<p>临界区：</p>
+<table>
+<thead>
+<tr>
+<th>InitializeCriticalSection</th>
+<th>初始化</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DeleteCriticalSection</td>
+<td>销毁</td>
+</tr>
+<tr>
+<td>EnterCriticalSection</td>
+<td>进入临界区</td>
+</tr>
+<tr>
+<td>LeaveCriticalSection</td>
+<td>离开临界区</td>
+</tr>
+</tbody></table>
+<p>互斥体：</p>
+<table>
+<thead>
+<tr>
+<th>CreateMutex</th>
+<th>创建互斥体</th>
+<th>可以给互斥体起名字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OpenMutex</td>
+<td>打开互斥体，得到句柄</td>
+<td>根据名字才能打开互斥体</td>
+</tr>
+<tr>
+<td>ReleaseMutex</td>
+<td>释放互斥体</td>
+<td>会使得互斥对象处于激发态</td>
+</tr>
+<tr>
+<td>CloseHandle</td>
+<td>关闭句柄</td>
+<td>使用完后关闭</td>
+</tr>
+<tr>
+<td>WaitForSingleObject</td>
+<td>等待互斥体处于激发态</td>
+<td>等到激发态后，会使得互斥体再此处于非激发态</td>
+</tr>
+</tbody></table>
+<p>事件：</p>
+<table>
+<thead>
+<tr>
+<th>CreateEvent</th>
+<th>创建事件</th>
+<th>可以给事件起名字；可以设置两种模式：手工 自动</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OpenEvent</td>
+<td>打开事件，得到句柄</td>
+<td>根据名字才能打开事件</td>
+</tr>
+<tr>
+<td>SetEvent</td>
+<td>释放事件</td>
+<td>会使得事件处于激发态</td>
+</tr>
+<tr>
+<td>ResetEvent</td>
+<td>重置事件</td>
+<td>会使得事件处于非激发态，对手工模式的事件有效</td>
+</tr>
+<tr>
+<td>WaitForSingleObject</td>
+<td>等待事件处于激发态</td>
+<td>等到激发态后，对于自动模式的事件会使其再此处于非激发态</td>
+</tr>
+</tbody></table>
+<p>信号量：</p>
+<table>
+<thead>
+<tr>
+<th>CreateSemaphore</th>
+<th>创建信号量</th>
+<th>可以给信号量起名字；可以指定最大信号数和当前信号数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OpenSemaphore</td>
+<td>打开信号量</td>
+<td>根据名字才能打开信号量</td>
+</tr>
+<tr>
+<td>ReleaseSemaphore</td>
+<td>释放信号量</td>
+<td>会增加信号量的信号数，但是不会超过最大信号数</td>
+</tr>
+<tr>
+<td>WaitForSingleObject</td>
+<td>等待信号量处于激发态</td>
+<td>若处于激发态，则会减少一个信号数，信号数为零，则将其置为非激发态</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/win32/" rel="tag"># win32</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/18/windows%E5%8E%9F%E7%90%8605/" rel="next" title="windows原理05">
+                <i class="fa fa-chevron-left"></i> windows原理05
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/19/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E7%A1%80/" rel="prev" title="密码学基础">
+                密码学基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Kncoked</p>
+              <p class="site-description motion-element" itemprop="description">Knocked的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#内核对象"><span class="nav-number">1.</span> <span class="nav-text">内核对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是内核对象？"><span class="nav-number">1.1.</span> <span class="nav-text">什么是内核对象？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内核对象的公共特点"><span class="nav-number">1.2.</span> <span class="nav-text">内核对象的公共特点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程"><span class="nav-number">2.</span> <span class="nav-text">进程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程"><span class="nav-number">3.</span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何创建一个线程"><span class="nav-number">3.1.</span> <span class="nav-text">如何创建一个线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程问题"><span class="nav-number">3.2.</span> <span class="nav-text">多线程问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原子操作"><span class="nav-number">3.3.</span> <span class="nav-text">原子操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#临界区-关键段"><span class="nav-number">3.4.</span> <span class="nav-text">临界区(关键段)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#等待函数"><span class="nav-number">3.5.</span> <span class="nav-text">等待函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#互斥体"><span class="nav-number">3.6.</span> <span class="nav-text">互斥体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件"><span class="nav-number">3.7.</span> <span class="nav-text">事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#信号量"><span class="nav-number">3.8.</span> <span class="nav-text">信号量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kncoked</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
