@@ -356,10 +356,7 @@
 
 单击消息BN_CHICKED
 
-SetWindowText设置控件的标题
-
-
-123456wchar_t str1[10] = &#123;&#125;;m_Button.GetWindowText(s
+SetWindowText设置
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -510,10 +507,7 @@ SetWindowText设置控件的标题
           创建MFC工程的方法新建空项目，右键项目属性  
 
 常规-&gt;MFC的使用  在共享DLL中使用MFC
-链接器-&gt;系统-&gt;子系统   窗口(/SUBSYSTEM:WINDOWS)
-
-添加cpp文件，添加代码：
-1234567891011121314151617181920212223
+链接器-&gt;系统-&gt;子系统   窗口(/S
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -667,13 +661,7 @@ SetWindowText设置控件的标题
 创建完成后，会出现一个DllMain函数(参数：模块句柄，调用原因，保留)
 这个函数在一下几种情况发生时会被调用
 
-程序被创建
-程序中有线程被创建
-程序即将退出
-程序中有线程将要退出
-
-DllMain函数可以执行一些初始化或清理资源的操作
-dll的导出方式有两
+程序
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -834,15 +822,7 @@ GetLogicalDrives
 获取所有逻辑驱动器，并以Bitmap形式返回
 
 
-GetLogicalDriveStrings
-获取所有逻辑驱动器，并以字符串形式返回
-
-
-FindFirstVolume
-查找第一个驱动器，返回查找句柄
-
-
-
+GetLogica
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -991,9 +971,7 @@ FindFirstVolume
         
           
           
-控件是指对数据和方法的封装。控件可以有自己的属性和方法，其中属性是控件数据的简单访问者，方法则是控件的一些简单而可见的功能、控件创建过程包括设计、开发、调试（就是所谓的3Ds开发流程,即Design、Develop、Debug）工作， 然后是控件的使用。
-
-总体框架如下，控件代码在WM_COMMA
+控件是指对数据和方法的封装。控件可以有自己的属性和方法，其中属性是控件数据的简单访问者，方法则是控件的一些简单而可见的功能、控件创建过程包括设计、开发、调试（
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1145,9 +1123,7 @@ FindFirstVolume
 
 点击一个按钮，在按钮本身的消息中弹出对话框，而不是在COMMAND消息中弹出对话框
 
-题意可以大致理解为，点击按键后，将主窗口的回调函数修改为按键的回调函数
-实例代码如下：
-12345678910111213141516171819202122232425
+题意可以大致理解为，点击按键后
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1297,9 +1273,7 @@ FindFirstVolume
           
           普通版:收集一些常用框架…
 
-Windows 窗体应用程序是在用户计算机上运行的客户端应用程序，可显示信息、请求用户输入以及通过网络与远程计算机进行通信。在可以使用时，可能需要研究 .NET Framework 和它所提供的类。
-
-1234567891011121314151617181920212
+Windows 窗体应用程序是在用户计算机上运行的客户端应用程序，可显示信息、请求用户输入以及通过网络与远程计算机进行通信。在可以
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1448,7 +1422,7 @@ Windows 窗体应用程序是在用户计算机上运行的客户端应用程序
         
           
           通过自己的计算器 更改到系统计算器
-123456789case WM_CHAR:&#123;	//数字键转换为控件ID	wParam -= 0x30;	wParam += 0x82;	DWORD wparam = MAKEWPARAM(wParam, BN_CLICKED);	SendMessage
+123456789case WM_CHAR:&#123;	//数字键转换为控件ID	wParam -= 0x30;	wPar
           ...
           <!--noindex-->
           <div class="post-button text-center">
