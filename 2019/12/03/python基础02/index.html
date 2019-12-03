@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="模块使用import可以直接导入模块，导入模块的同时会执行其中的代码，但是同一个模块的代码不论直接import多少次，都只执行一次  在python下py后缀名的文件就是模块  方法一： 12import mprint(m.g_number1)  方法二： 12from m import g_number1print(g_number1)  方法三： 12from m import *print(">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python基础02">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;index.html">
+<meta property="og:site_name" content="Knocked_Blog">
+<meta property="og:description" content="模块使用import可以直接导入模块，导入模块的同时会执行其中的代码，但是同一个模块的代码不论直接import多少次，都只执行一次  在python下py后缀名的文件就是模块  方法一： 12import mprint(m.g_number1)  方法二： 12from m import g_number1print(g_number1)  方法三： 12from m import *print(">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203143546392.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203143702572.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203144003719.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203144225361.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203144500944.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203145208302.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203150040811.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203151224707.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203151652289.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203152052423.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203152353324.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203153230826.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203153500061.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203154153209.png">
+<meta property="og:updated_time" content="2019-12-03T07:58:37.849Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;03&#x2F;python%E5%9F%BA%E7%A1%8002&#x2F;image-20191203143546392.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/03/python基础02/"/>
+
+
+
+
+
+  <title>python基础02 | Knocked_Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Knocked_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">HelloNewWorld</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/03/python%E5%9F%BA%E7%A1%8002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kncoked">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Knocked_Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python基础02</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-03T23:56:00+08:00">
+                2019-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h1><p>使用import可以直接导入模块，导入模块的同时会执行其中的代码，但是同一个模块的代码不论直接import多少次，都只执行一次</p>
+<blockquote>
+<p>在python下py后缀名的文件就是模块</p>
+</blockquote>
+<p>方法一：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> m</span><br><span class="line">print(m.g_number1)</span><br></pre></td></tr></table></figure>
+
+<p>方法二：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> m <span class="keyword">import</span> g_number1</span><br><span class="line">print(g_number1)</span><br></pre></td></tr></table></figure>
+
+<p>方法三：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> m <span class="keyword">import</span> *</span><br><span class="line">print(g_number1)</span><br></pre></td></tr></table></figure>
+
+<p>模块的私有属性（不会被直接访问到的）以单下划线开头的全局变量不能被其他模块以<code>import xxx from *</code>的方式访问</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_pnumber = <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>访问模块私有的属性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> m</span><br><span class="line">print(m._pnumber)</span><br></pre></td></tr></table></figure>
+
+<h1 id="python面向对象"><a href="#python面向对象" class="headerlink" title="python面向对象"></a>python面向对象</h1><h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>python中的类，class类名（基类名称）：</p>
+<p>在python3中所有的类都默认继承自object</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>:</span></span><br><span class="line">    <span class="comment">#所有的构造函数都叫做__init__</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="comment">#所有的析构函数都叫做__del__</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="comment">#如果不编写这两个函数，会默认生成</span></span><br></pre></td></tr></table></figure>
+
+<p>类属性的添加和使用，可以使用类名在类内或者类外动态的添加新的类属性。虽然类名和实例都可以访问到类属性，但是更推荐使用类名。不能使用实例修改类属性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Obj</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="comment">#在类的作用于中直接编写的属性就是类属性</span></span><br><span class="line">    <span class="comment">#类属性类似与c++中的静态数据成员</span></span><br><span class="line">    class_number = <span class="number">100</span></span><br><span class="line">    <span class="comment">#调用这个方法就会生成一个新的类属性</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_number</span><span class="params">(self)</span>:</span></span><br><span class="line">        Obj.class_number2 = <span class="number">200</span></span><br><span class="line"></span><br><span class="line">obj=Obj()</span><br><span class="line"><span class="comment">#可以使用类名和实例访问到类属性</span></span><br><span class="line">print(obj.class_number, Obj.class_number)</span><br><span class="line"><span class="comment"># 使用类名可以直接修改类属性，如果尝试使用实例</span></span><br><span class="line"><span class="comment"># 修改属性，本质上是给实例添加了一个自己的属性</span></span><br><span class="line">Obj.class_number = <span class="number">200</span></span><br><span class="line">print(obj.class_number, Obj.class_number)</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203143546392.png" alt="image-20191203143546392"></p>
+<p><code>__dict__</code>是一个字典，保存了当前的实例或者对象中的所有属性，包括内置属性和自定义属性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(obj.__dict__, <span class="string">"\n"</span>, Obj.__dict__)</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203143702572.png" alt="image-20191203143702572"></p>
+<p>可以在成员方法或类外使用类名动态的添加属性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Obj</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_number</span><span class="params">(self)</span>:</span></span><br><span class="line">        Obj.class_number2 = <span class="number">200</span></span><br><span class="line"></span><br><span class="line">obj = Obj()</span><br><span class="line">Obj.class_number1 = <span class="number">100</span></span><br><span class="line">print(Obj.class_number1, Obj.__dict__)</span><br><span class="line">obj.add_number()</span><br><span class="line">print(Obj.class_number2, Obj.__dict__)</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203144003719.png" alt="image-20191203144003719"></p>
+<p>实例属性就是使用self或者实例名定义出来的属性，每一个实例都会拥有自己的实例属性，同样可以使用类名或者self动态添加属性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Obj</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="comment"># 构造函数中添加的实例属性是每一个实例都有的</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.number1 = <span class="number">10</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 调用这个函数会动态添加属性</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">add_number2</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.number2 = <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建两个实例分别测试</span></span><br><span class="line">object1 = Obj()</span><br><span class="line">object2 = Obj()</span><br><span class="line">print(object1.__dict__, <span class="string">"\n"</span>, object2.__dict__)</span><br><span class="line"><span class="comment"># 动态的使用 self 添加属性</span></span><br><span class="line">object1.add_number2()</span><br><span class="line">print(object1.__dict__, <span class="string">"\n"</span>, object2.__dict__)</span><br><span class="line"><span class="comment"># 动态的使用 实例名称 添加属性</span></span><br><span class="line">object2.number3 = <span class="number">30</span></span><br><span class="line">print(object1.__dict__, <span class="string">"\n"</span>, object2.__dict__)</span><br><span class="line"><span class="comment"># 删除一个属性</span></span><br><span class="line"><span class="keyword">del</span> object1.number2</span><br><span class="line">print(object1.__dict__, <span class="string">"\n"</span>, object2.__dict__)</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203144225361.png" alt="image-20191203144225361"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Obj</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 所有的基类组成的一个元组</span></span><br><span class="line">        print(Obj.__bases__)</span><br><span class="line">        <span class="comment"># 并不是所有的属性都能够被遍历到</span></span><br><span class="line">obj = Obj()</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203144500944.png" alt="image-20191203144500944"></p>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Obj</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="comment">#一个类属性</span></span><br><span class="line">    class_number = <span class="number">10</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 实例方法必须使用实例调用</span></span><br><span class="line">    <span class="comment"># 第一个参数是一个指向当前对象的'指针'，</span></span><br><span class="line">    <span class="comment"># 名字通常是 self ，参数自行添加</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">function1</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"这是一个实例方法"</span>, Obj.class_number)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用 @classmethod 修饰的方法就是类方法，</span></span><br><span class="line">    <span class="comment"># 类方法的第一个参数就是类本身，通常叫做 cls</span></span><br><span class="line">    <span class="comment"># 可以使用 cls 访问到当前类的类属性</span></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">function2</span><span class="params">(cls)</span>:</span></span><br><span class="line">        print(<span class="string">"这是一个类方法"</span>, cls.class_number)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 在使用时和类方法没有太大区别，</span></span><br><span class="line">    <span class="comment"># 对参数没有要求，如果想要访问类属性可以直接通过类名</span></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">function3</span><span class="params">()</span>:</span></span><br><span class="line">        print(<span class="string">"这是一个静态方法"</span>, Obj.class_number)</span><br><span class="line"></span><br><span class="line">obj = Obj()</span><br><span class="line">obj.function1()</span><br><span class="line">obj.function2()</span><br><span class="line">obj.function3()</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203145208302.png" alt="image-20191203145208302"></p>
+<p>类的”私有”属性，所有只以双下划线开头的属性会被认为是私有的，不能[直接]被外界访问到</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Obj</span><span class="params">(object)</span>:</span></span><br><span class="line">    __number = <span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<p>实际上的私有知识解释器给属性进行了更名，_类名+属性名</p>
+<p>但是可以使用这种方式进行访问<code>Obj._Obj__number</code></p>
+<p>所有以单下划线开头的命名，约定俗成都是不可访问的</p>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>继承的形式，class 类名(父类名, … )</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CBase1</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"CBase1"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CBase2</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"CBase2"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CObj</span><span class="params">(CBase1, CBase2)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"CObj"</span>)</span><br><span class="line">        <span class="comment"># 可以使用父类的类名直接</span></span><br><span class="line">        <span class="comment"># 访问父类的属性</span></span><br><span class="line">        CBase1.__init__(self)</span><br><span class="line">        <span class="comment"># 默认调用的是原型链中</span></span><br><span class="line">        <span class="comment"># 当前类的下一个</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        <span class="comment"># super实际找到的类就是第</span></span><br><span class="line">        <span class="comment"># 一个参数在原型链中的下一个</span></span><br><span class="line">        super(CBase1, self).__init__()</span><br><span class="line">obj = CObj()</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203150040811.png" alt="image-20191203150040811"></p>
+<p>判断一个类是不是另一个类的子类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(issubclass(CObj, CBase1))</span><br></pre></td></tr></table></figure>
+
+<p>输出当前所有父类组成的元祖</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(CObj.__bases__)</span><br></pre></td></tr></table></figure>
+
+<p>显示当前类的继承原型链</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(CObj.mro())</span><br></pre></td></tr></table></figure>
+
+<p>python存在继承关系时，不会出现二义性问题，当访问一个属性的时候，解释器会遍历原型链，首先找到谁就用谁</p>
+<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>如果一部分代码可能会触发异常，就应该使用try进行包含</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#aaa = 1</span></span><br><span class="line">    print(aaa)</span><br><span class="line"><span class="keyword">except</span> NameError:</span><br><span class="line">    print(<span class="string">"产生了一个异常"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">"程序正常运行没有产生异常"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>NameError是一个异常对象的类名，这里表示会堆找不到名称这个异常捕获并处理</p>
+<p>try finally 无论是否产生异常，都保证执行代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    print(<span class="string">"没有异常"</span>)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    print(<span class="string">"永远会执行"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>通用的异常处理写法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment">#aaa = 1</span></span><br><span class="line">    print(aaa)</span><br><span class="line"><span class="comment"># 接收任意一个异常对象并取名字</span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+
+<p>抛出异常</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">name = input(<span class="string">"请输入姓名："</span>)</span><br><span class="line"><span class="keyword">if</span> name == <span class="string">"hello"</span>:</span><br><span class="line">    <span class="keyword">raise</span> NameError(<span class="string">"输入姓名异常"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203151224707.png" alt="image-20191203151224707"></p>
+<p>产生异常的时候，异常的类型可以在输出窗口看到</p>
+<h1 id="python特殊函数"><a href="#python特殊函数" class="headerlink" title="python特殊函数"></a>python特殊函数</h1><p>特殊函数filter  ：接收一个序列，将序列中的每一个元素传入到提供的函数中进行判断，如果函数的返回值位True那么将这个元素添加到新的的序列中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 筛选出所有字符</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">filter_alpha</span><span class="params">(param)</span>:</span></span><br><span class="line">    <span class="comment"># 传入所有的元素，但只留下返回值为True的</span></span><br><span class="line">    <span class="comment">#print(param)</span></span><br><span class="line">    <span class="comment"># isalpha 是 str 的方法，判断是否是字母</span></span><br><span class="line">    <span class="comment"># islower 是 str 的方法，判断是否是小写</span></span><br><span class="line">    <span class="keyword">return</span> param.isalpha() <span class="keyword">and</span> param.islower()</span><br><span class="line"></span><br><span class="line">print(list(filter(filter_alpha, <span class="string">"A1!b2#C3%d4^E5&amp;f6"</span>)))</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203151652289.png" alt="image-20191203151652289"></p>
+<p>特殊函数reduce：接收一个序列和函数，函数必须拥有两个参数。首先将序列的第一个元素和第二个元素作为参数传入到函数中，之后的每一次都将前一次的计算结果和下一个元素传入到函数中，最终返回计算结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 必须要有两个参数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(num1, num2)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> num1 + num2</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mul</span><span class="params">(num1, num2)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> num1 * num2</span><br><span class="line"><span class="comment"># 在python3中reduce不再是内置函数</span></span><br><span class="line"><span class="comment"># 需要使用functools模块</span></span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line">print(reduce(add,range(<span class="number">101</span>)))</span><br><span class="line">print(reduce(mul,range(<span class="number">1</span>, <span class="number">25</span>)))</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203152052423.png" alt="image-20191203152052423"></p>
+<p>特殊函数map：map要求传入一个函数以及一个或多个的可迭代序列，函数的参数个数必须和序列的数量相同，map会在内部分别将每一个序列的元素传入到提供的函数中，并且把函数的返回值组合成一个新的可迭代序列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rep_string</span><span class="params">(s, time)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> s * time</span><br><span class="line">print(list(map(rep_string, <span class="string">"abcd"</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])))</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203152353324.png" alt="image-20191203152353324"></p>
+<h1 id="lambda表达式"><a href="#lambda表达式" class="headerlink" title="lambda表达式"></a>lambda表达式</h1><p>lambda表达式的语法  lambda  参数名：实现</p>
+<p>实现部分只能有一条语句，且不能有 return，整个实现部分的结果就是函数的返回值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(list(map(<span class="keyword">lambda</span> a, b:a * b, <span class="string">"abcd"</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])))</span><br><span class="line">print(reduce(<span class="keyword">lambda</span> x, y:x + y, range(<span class="number">1</span>, <span class="number">101</span>)))</span><br><span class="line">print(list(filter(<span class="keyword">lambda</span> n: <span class="literal">True</span> <span class="keyword">if</span> n.isalpha() <span class="keyword">else</span> <span class="literal">False</span>, <span class="string">"A1!b2#C3%d4^E5&amp;f6"</span>)))</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203153230826.png" alt="image-20191203153230826"></p>
+<h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><p>闭包指内部函数使用外部函数作用域的变量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">(factor)</span>:</span></span><br><span class="line">    <span class="comment"># 作用于：其中有 factor 和 inner</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(number)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> number * factor</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line">fun = outer(<span class="number">10</span>)</span><br><span class="line">print(fun(<span class="number">20</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203153500061.png" alt="image-20191203153500061"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fun = outer(<span class="number">10</span>)</span><br><span class="line"><span class="string">''' </span></span><br><span class="line"><span class="string">在执行到本行代码的时候，会返回一个内部函数</span></span><br><span class="line"><span class="string">def inner(number):</span></span><br><span class="line"><span class="string">    return number * 10</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">print(fun(<span class="number">20</span>))</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">fun接收了上一个函数的返回值，已经是一个函数了</span></span><br><span class="line"><span class="string">def inner(20):</span></span><br><span class="line"><span class="string">    return 20 * 10</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p>装饰器：在闭包的基础上，内部函数调用了外部作用于提供的函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">        print(<span class="string">"执行之前的时间"</span>)</span><br><span class="line">        func()</span><br><span class="line">        print(<span class="string">"执行之后的时间"</span>)</span><br><span class="line">    <span class="keyword">return</span> inner</span><br></pre></td></tr></table></figure>
+
+<p>有些时候，我们需要给一些特定的函数添加功能，但是不能修改函数的名称，函数的参数个数以及函数的调用形式，可以在装饰器中实现功能</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">        print(<span class="string">"执行之前的时间"</span>)</span><br><span class="line">        func()</span><br><span class="line">        print(<span class="string">"执行之后的时间"</span>)</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">"fun函数原有功能"</span>)</span><br><span class="line">fun=outer(fun)</span><br><span class="line">fun()</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191203154153209.png" alt="image-20191203154153209"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 传入了一个函数，返回了一个新的函数</span></span><br><span class="line"><span class="comment"># 并且将新函数的地址赋值给fun</span></span><br><span class="line">fun=outer(fun)</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">def inner():</span></span><br><span class="line"><span class="string">    print("这里是在原有函数上新添加的功能")</span></span><br><span class="line"><span class="string">    return 以前的fun()</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">fun()</span><br><span class="line"><span class="string">'''这里是返回的新的函数</span></span><br><span class="line"><span class="string">def fun():</span></span><br><span class="line"><span class="string">    print("这里是在原有函数上新添加的功能")</span></span><br><span class="line"><span class="string">    return 以前的fun()</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p>@outer  在python中@的是语法糖</p>
+<p>语法糖是为了让代码可读性更高使用更简单</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr[<span class="number">10</span>][<span class="number">10</span>] -&gt; *(*(arr+<span class="number">10</span>)+<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="常用模块"><a href="#常用模块" class="headerlink" title="常用模块"></a>常用模块</h1><p>时间模块time</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="comment"># 使用localtime可以获取元祖显示的当前时间</span></span><br><span class="line"><span class="comment"># 如果传入了一个时间戳，那么会将时间戳进行转换</span></span><br><span class="line">print(time.localtime())</span><br><span class="line"><span class="comment"># 休眠指定秒数</span></span><br><span class="line">time.sleep(<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 将时间元祖转化成字符串</span></span><br><span class="line">print(time.strftime(<span class="string">"%Y-%m-%d %H:%M:%S"</span>,time.localtime()))</span><br></pre></td></tr></table></figure>
+
+<p>随机数模块random</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    <span class="comment"># 可以接受一个参数，生成的是0~n(不包括n)</span></span><br><span class="line">    print(random.randrange(<span class="number">10</span>))</span><br><span class="line">    <span class="comment"># 要求两个参数，生成n~m(包含m)</span></span><br><span class="line">    print(random.randint(<span class="number">0</span>,<span class="number">10</span>))</span><br><span class="line"></span><br><span class="line">tmp = <span class="string">""</span></span><br><span class="line"><span class="comment"># 一共循环了 0 ~ 5 次</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">    <span class="comment"># 有一半的概率是数字或者字母</span></span><br><span class="line">    rad1 = random.randrange(<span class="number">4</span>)</span><br><span class="line">    <span class="keyword">if</span> rad1 == <span class="number">1</span> <span class="keyword">or</span> rad1 == <span class="number">3</span>:</span><br><span class="line">        <span class="comment"># 生成 0 ~ 9 数字</span></span><br><span class="line">        rad2 = random.randrange(<span class="number">10</span>)</span><br><span class="line">        tmp += str(rad2)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 生成字母对应的 ASCII 码</span></span><br><span class="line">        rad3 = random.randrange(<span class="number">65</span>,<span class="number">91</span>)</span><br><span class="line">        tmp += chr(rad3)</span><br><span class="line">print(tmp)</span><br></pre></td></tr></table></figure>
+
+<p>目录和文件操作os</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="comment"># 目录的操作</span></span><br><span class="line">dir_path = <span class="string">"D:\\"</span></span><br><span class="line">file = [os.path.splitext(dir_path+f) <span class="keyword">for</span> f <span class="keyword">in</span> os.listdir(dir_path) <span class="keyword">if</span> os.path.isfile(dir_path+f)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件的操作，默认的打开方式是只读的 "r"</span></span><br><span class="line">f = open(<span class="string">"file.txt"</span>, <span class="string">"w+"</span>)</span><br><span class="line"><span class="comment"># 写入数据到文件中</span></span><br><span class="line">f.writelines(<span class="string">"这里是一行数据"</span>)</span><br><span class="line">f.close()</span><br><span class="line">f = open(<span class="string">"file.txt"</span>)</span><br><span class="line"><span class="comment"># 读取文件中的数据</span></span><br><span class="line">print(f.readline())</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+<p>struct模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="comment"># 打包: pack int + int + char[1024]</span></span><br><span class="line">b = struct.pack(<span class="string">"ii1024s"</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="string">b"nihao"</span>)</span><br><span class="line">print(b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解包: 提供二进制数据和 fmt，返回一个元组，需要元组解包</span></span><br><span class="line">i1, i2, s = struct.unpack(<span class="string">"ii1024s"</span>, b)</span><br><span class="line">print(i1, i2, s)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/02/python%E5%9F%BA%E7%A1%8001/" rel="next" title="python基础01">
+                <i class="fa fa-chevron-left"></i> python基础01
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Kncoked</p>
+              <p class="site-description motion-element" itemprop="description">Knocked的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#模块"><span class="nav-number">1.</span> <span class="nav-text">模块</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#python面向对象"><span class="nav-number">2.</span> <span class="nav-text">python面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类"><span class="nav-number">2.1.</span> <span class="nav-text">类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性"><span class="nav-number">2.2.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承"><span class="nav-number">2.3.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常"><span class="nav-number">2.4.</span> <span class="nav-text">异常</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#python特殊函数"><span class="nav-number">3.</span> <span class="nav-text">python特殊函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lambda表达式"><span class="nav-number">4.</span> <span class="nav-text">lambda表达式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#闭包"><span class="nav-number">5.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用模块"><span class="nav-number">6.</span> <span class="nav-text">常用模块</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kncoked</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
