@@ -110,7 +110,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220113319905.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220113037429.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220114045510.png">
-<meta property="og:updated_time" content="2019-12-20T09:13:01.868Z">
+<meta property="og:updated_time" content="2019-12-20T10:33:39.631Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220081907452.png">
 
@@ -304,7 +304,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-20T17:07:00Z">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-21T01:07:00+08:00">
                 2019-12-20
               </time>
             
@@ -368,37 +368,37 @@
 <p>使用PE查看工具查看 <strong>区段信息</strong></p>
 <p>查看目标程序的 <strong>二进制特征</strong></p>
 <h2 id="BC-程序-Borland-C"><a href="#BC-程序-Borland-C" class="headerlink" title="BC++ 程序(Borland C++)"></a>BC++ 程序(Borland C++)</h2><p>程序的二进制特征：</p>
-<p><img src="./image-20191220081907452.png" alt="image-20191220081907452"></p>
+<p><img src="image-20191220081907452.png" alt="image-20191220081907452"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EB 10         JMP SHORT BC6.0040130E</span><br><span class="line">66 62 3A 43 2&gt;ASCII &quot;fb:C++HOOK&quot;</span><br><span class="line">90            NOP</span><br></pre></td></tr></table></figure>
 <p>BC++ 编写的程序，IAT函数的调用通常都是 E8 跳转表 + FF25 IAT 地址</p>
-<p><img src="./image-20191220083318643.png" alt="image-20191220083318643"></p>
+<p><img src="image-20191220083318643.png" alt="image-20191220083318643"></p>
 <p>链接器版本：</p>
-<p><img src="./image-20191220082759624.png" alt="image-20191220082759624"></p>
+<p><img src="image-20191220082759624.png" alt="image-20191220082759624"></p>
 <p>区段特征：</p>
-<p><img src="./image-20191220082933038.png" alt="image-20191220082933038"></p>
+<p><img src="image-20191220082933038.png" alt="image-20191220082933038"></p>
 <h2 id="Delphi-程序"><a href="#Delphi-程序" class="headerlink" title="Delphi 程序"></a>Delphi 程序</h2><p>连接器版本：2.25</p>
-<p><img src="./image-20191220083522510.png" alt="image-20191220083522510"></p>
+<p><img src="image-20191220083522510.png" alt="image-20191220083522510"></p>
 <p>区段特征：</p>
-<p><img src="./image-20191220083622399.png" alt="image-20191220083622399"></p>
+<p><img src="image-20191220083622399.png" alt="image-20191220083622399"></p>
 <p>二进制特征：连续的 5 个 call 后面紧跟着一堆 0</p>
-<p><img src="./image-20191220083713955.png" alt="image-20191220083713955"></p>
+<p><img src="image-20191220083713955.png" alt="image-20191220083713955"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">55            PUSH EBP</span><br><span class="line">8BEC          MOV EBP,ESP</span><br><span class="line">83C4 F0       ADD ESP,-0x10</span><br><span class="line">B8 ????????   MOV EAX,Delphi7.00454834                 ;  UNICODE &quot;;&quot;</span><br><span class="line">E8 ????????   CALL Delphi7.00405C60</span><br><span class="line">A1 ????????   MOV EAX,DWORD PTR DS:[0x456058]</span><br><span class="line">8B00          MOV EAX,DWORD PTR DS:[EAX]</span><br></pre></td></tr></table></figure>
 
-<p><img src="./image-20191220083811375.png" alt="image-20191220083811375"></p>
+<p><img src="image-20191220083811375.png" alt="image-20191220083811375"></p>
 <h2 id="VB6-程序"><a href="#VB6-程序" class="headerlink" title="VB6 程序"></a>VB6 程序</h2><p>链接器版本</p>
-<p><img src="./image-20191220084800738.png" alt="image-20191220084800738"></p>
+<p><img src="image-20191220084800738.png" alt="image-20191220084800738"></p>
 <p>区段特征</p>
-<p><img src="./image-20191220084845698.png" alt="image-20191220084845698"></p>
+<p><img src="image-20191220084845698.png" alt="image-20191220084845698"></p>
 <p>二进制特征（VB程序一般直接使用工具进行反编译）</p>
-<p><img src="./image-20191220085103692.png" alt="image-20191220085103692"></p>
+<p><img src="image-20191220085103692.png" alt="image-20191220085103692"></p>
 <h2 id="易语言、VC6"><a href="#易语言、VC6" class="headerlink" title="易语言、VC6"></a>易语言、VC6</h2><p>二进制特征，两个的特征基本信息</p>
-<p><img src="./image-20191220085953203.png" alt="image-20191220085953203"></p>
+<p><img src="image-20191220085953203.png" alt="image-20191220085953203"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">55              PUSH EBP</span><br><span class="line">8BEC            MOV EBP,ESP</span><br><span class="line">6A FF           PUSH -0x1</span><br><span class="line">68 ????????     PUSH VC6_0_De.005BDC80</span><br><span class="line">68 ????????     PUSH VC6_0_De.00422B78</span><br><span class="line">64:A1 00000000  MOV EAX,DWORD PTR FS:[0]</span><br></pre></td></tr></table></figure>
 
 <p>连接器特征</p>
-<p><img src="./image-20191220090102677.png" alt="image-20191220090102677"></p>
+<p><img src="image-20191220090102677.png" alt="image-20191220090102677"></p>
 <p>区段特征</p>
-<p><img src="./image-20191220090037179.png" alt="image-20191220090037179"></p>
+<p><img src="image-20191220090037179.png" alt="image-20191220090037179"></p>
 <h2 id="汇编程序"><a href="#汇编程序" class="headerlink" title="汇编程序"></a>汇编程序</h2><p>汇编程序的链接器版本和区段特征都是不固定的，也没有明确的二进制特征。可以通过查看文件的大小来猜测是不是一个汇编程序。程序的 OEP 部分通常直接就是逻辑代码，也可以作为标识。</p>
 <h2 id="VS-程序的特征"><a href="#VS-程序的特征" class="headerlink" title="VS 程序的特征"></a>VS 程序的特征</h2><p>不同版本的VS编写出来的程序，特征是不同的</p>
 <p>通常 debug 版本的程序入口点可能存在 call + call，而 release 是 call + jmp</p>
@@ -453,32 +453,32 @@
 <h1 id="基本数据类型的识别"><a href="#基本数据类型的识别" class="headerlink" title="基本数据类型的识别"></a>基本数据类型的识别</h1><h2 id="常量的识别"><a href="#常量的识别" class="headerlink" title="常量的识别"></a>常量的识别</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">bool</span> bRet = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> nCount = SIZE;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* szHello = <span class="string">"Hello 15PB"</span>;</span><br><span class="line"><span class="keyword">const</span> eData data = eData::enum_TYPE_1;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> fNum = <span class="number">1.5</span>;</span><br><span class="line"><span class="keyword">const</span> sData stc = &#123; <span class="number">1</span>,<span class="number">2.0</span>,<span class="string">'1'</span> &#125;;</span><br></pre></td></tr></table></figure>
 
 <p>常量信息可能被保存在常量数据区和代码区</p>
-<p><img src="./image-20191220094911401.png" alt="image-20191220094911401"></p>
+<p><img src="image-20191220094911401.png" alt="image-20191220094911401"></p>
 <h2 id="字符串常量的初始化"><a href="#字符串常量的初始化" class="headerlink" title="字符串常量的初始化"></a>字符串常量的初始化</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 字符串数组</span></span><br><span class="line"><span class="keyword">char</span> szStr[<span class="number">100</span>] = &#123; <span class="string">"szStr[100] Hello 15PB"</span> &#125;;</span><br><span class="line"><span class="comment">// 宽字符串数组 </span></span><br><span class="line"><span class="keyword">wchar_t</span> szWchar[<span class="number">100</span>] = <span class="string">L"szWchar Hello 15PB"</span>;</span><br><span class="line"><span class="comment">// 普通的字符数组</span></span><br><span class="line"><span class="keyword">char</span> szHello[] = <span class="string">"szHello[] Hello 15PB"</span>;</span><br></pre></td></tr></table></figure>
 
 <p>对于一个字符串，初始化通常是： 四字节拷贝  +  不足四字节拷贝  +  填充剩余的空间为 0</p>
 <p>如果初始化数据较多，第一步和第二步会简化成一个串操作进行赋值</p>
 <p>对于一个没有指定大小的字符串初始化操作，就没有填充剩余空间的步骤</p>
-<p><img src="./image-20191220101214702.png" alt="image-20191220101214702"></p>
+<p><img src="image-20191220101214702.png" alt="image-20191220101214702"></p>
 <h2 id="指针和引用"><a href="#指针和引用" class="headerlink" title="指针和引用"></a>指针和引用</h2><p>指针和引用在汇编层面的实现完全一致</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>* pnumber = &amp;number;</span><br><span class="line"><span class="comment">// 00F21739  lea         eax, [number]</span></span><br><span class="line"><span class="comment">// 00F2173C  mov         dword ptr[pnumber], eax</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span>&amp; rnumber = number;</span><br><span class="line"><span class="comment">// 00F2173F  lea         eax, [number]</span></span><br><span class="line"><span class="comment">// 00F21742  mov         dword ptr[rnumber], eax</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="分析对象"><a href="#分析对象" class="headerlink" title="分析对象"></a>分析对象</h1><h2 id="构造函数的分析"><a href="#构造函数的分析" class="headerlink" title="构造函数的分析"></a>构造函数的分析</h2><p>构造函数会使用 ecx 传递对象的首地址(this)，构造函数的返回值是 this</p>
 <p>一个存在继承关系且有虚函数的构造函数 = 构造父类\成员 + 初始化虚表指针 + 用户代码 + 返回值</p>
-<p><img src="./image-20191220105137737.png" alt="image-20191220105137737"></p>
-<p><img src="./image-20191220110306338.png" alt="image-20191220110306338"></p>
-<p><img src="./image-20191220111502533.png" alt="image-20191220111502533"></p>
+<p><img src="image-20191220105137737.png" alt="image-20191220105137737"></p>
+<p><img src="image-20191220110306338.png" alt="image-20191220110306338"></p>
+<p><img src="image-20191220111502533.png" alt="image-20191220111502533"></p>
 <h2 id="析构函数的分析"><a href="#析构函数的分析" class="headerlink" title="析构函数的分析"></a>析构函数的分析</h2><p>析构函数中没有设置返回值。</p>
 <p>一个存在继承关系且有虚函数的析构函数 = 重置虚表指针 + 用户代码 + 析构父类</p>
-<p><img src="./image-20191220105452142.png" alt="image-20191220105452142"></p>
-<p><img src="./image-20191220110611026.png" alt="image-20191220110611026"></p>
-<p><img src="./image-20191220112023141.png" alt="image-20191220112023141"></p>
+<p><img src="image-20191220105452142.png" alt="image-20191220105452142"></p>
+<p><img src="image-20191220110611026.png" alt="image-20191220110611026"></p>
+<p><img src="image-20191220112023141.png" alt="image-20191220112023141"></p>
 <h2 id="成员函数和数据成员"><a href="#成员函数和数据成员" class="headerlink" title="成员函数和数据成员"></a>成员函数和数据成员</h2><p>成员函数的调用会使用 ecx 传递 this 指针</p>
 <p>数据成员的使用是通过 this 加上一个偏移得到</p>
-<p><img src="./image-20191220113319905.png" alt="image-20191220113319905"></p>
-<p><img src="./image-20191220113037429.png" alt="image-20191220113037429"></p>
+<p><img src="image-20191220113319905.png" alt="image-20191220113319905"></p>
+<p><img src="image-20191220113037429.png" alt="image-20191220113037429"></p>
 <h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><p>并不是所有的虚函数调用都会有动态联编</p>
-<p><img src="./image-20191220114045510.png" alt="image-20191220114045510"></p>
+<p><img src="image-20191220114045510.png" alt="image-20191220114045510"></p>
 <h1 id="对系统代码的识别"><a href="#对系统代码的识别" class="headerlink" title="对系统代码的识别"></a>对系统代码的识别</h1><h5 id="1-初始化安全-cookie"><a href="#1-初始化安全-cookie" class="headerlink" title="1. 初始化安全 cookie:"></a>1. 初始化安全 cookie:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">002A171E  mov         eax,dword ptr [__security_cookie (02AA004h)]  </span><br><span class="line">002A1723  xor         eax,ebp  </span><br><span class="line">002A1725  mov         dword ptr [ebp-4],eax</span><br><span class="line">; 安全 cookie 是一个运行时确定的值，使用当前的 ebp 对它进行加密，并放置到 ebp - 4 的位置，如果被缓冲区溢出攻击了，那么 ebp - 4 绝对会被覆盖，覆盖后的值再次使用 ebp 异或解密就无法恢复之前的数值，导致程序结束</span><br></pre></td></tr></table></figure>
 
 <h5 id="2-检查一段代码是否是用户代码"><a href="#2-检查一段代码是否是用户代码" class="headerlink" title="2. 检查一段代码是否是用户代码"></a>2. 检查一段代码是否是用户代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">002A1728  mov         ecx,offset _2A6D85CB_</span><br><span class="line">002A172D  call        @__CheckForDebuggerJustMyCode@4 (02A1208h)</span><br></pre></td></tr></table></figure>
