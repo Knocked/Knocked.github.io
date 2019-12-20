@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="逆向," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="识别程序的特征如何识别程序的特征使用PE查看工具查看 链接器版本 使用PE查看工具查看 区段信息 查看目标程序的 二进制特征 BC++ 程序(Borland C++)程序的二进制特征：  123EB 10         JMP SHORT BC6.0040130E66 62 3A 43 2&amp;gt;ASCII &amp;quot;fb:C++HOOK&amp;quot;90            NOP BC++">
+<meta name="keywords" content="逆向">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逆向基础04">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;index.html">
+<meta property="og:site_name" content="Knocked_Blog">
+<meta property="og:description" content="识别程序的特征如何识别程序的特征使用PE查看工具查看 链接器版本 使用PE查看工具查看 区段信息 查看目标程序的 二进制特征 BC++ 程序(Borland C++)程序的二进制特征：  123EB 10         JMP SHORT BC6.0040130E66 62 3A 43 2&amp;gt;ASCII &amp;quot;fb:C++HOOK&amp;quot;90            NOP BC++">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220081907452.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220083318643.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220082759624.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220082933038.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220083522510.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220083622399.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220083713955.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220083811375.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220084800738.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220084845698.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220085103692.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220085953203.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220090102677.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220090037179.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220094911401.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220101214702.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220105137737.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220110306338.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220111502533.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220105452142.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220110611026.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220112023141.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220113319905.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220113037429.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220114045510.png">
+<meta property="og:updated_time" content="2019-12-20T09:13:01.868Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;21&#x2F;%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004&#x2F;image-20191220081907452.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/21/逆向基础04/"/>
+
+
+
+
+
+  <title>逆向基础04 | Knocked_Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Knocked_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">HelloNewWorld</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/21/%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8004/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kncoked">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Knocked_Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">逆向基础04</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-20T17:07:00Z">
+                2019-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="识别程序的特征"><a href="#识别程序的特征" class="headerlink" title="识别程序的特征"></a>识别程序的特征</h1><h2 id="如何识别程序的特征"><a href="#如何识别程序的特征" class="headerlink" title="如何识别程序的特征"></a>如何识别程序的特征</h2><p>使用PE查看工具查看 <strong>链接器版本</strong></p>
+<p>使用PE查看工具查看 <strong>区段信息</strong></p>
+<p>查看目标程序的 <strong>二进制特征</strong></p>
+<h2 id="BC-程序-Borland-C"><a href="#BC-程序-Borland-C" class="headerlink" title="BC++ 程序(Borland C++)"></a>BC++ 程序(Borland C++)</h2><p>程序的二进制特征：</p>
+<p><img src="./image-20191220081907452.png" alt="image-20191220081907452"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EB 10         JMP SHORT BC6.0040130E</span><br><span class="line">66 62 3A 43 2&gt;ASCII &quot;fb:C++HOOK&quot;</span><br><span class="line">90            NOP</span><br></pre></td></tr></table></figure>
+<p>BC++ 编写的程序，IAT函数的调用通常都是 E8 跳转表 + FF25 IAT 地址</p>
+<p><img src="./image-20191220083318643.png" alt="image-20191220083318643"></p>
+<p>链接器版本：</p>
+<p><img src="./image-20191220082759624.png" alt="image-20191220082759624"></p>
+<p>区段特征：</p>
+<p><img src="./image-20191220082933038.png" alt="image-20191220082933038"></p>
+<h2 id="Delphi-程序"><a href="#Delphi-程序" class="headerlink" title="Delphi 程序"></a>Delphi 程序</h2><p>连接器版本：2.25</p>
+<p><img src="./image-20191220083522510.png" alt="image-20191220083522510"></p>
+<p>区段特征：</p>
+<p><img src="./image-20191220083622399.png" alt="image-20191220083622399"></p>
+<p>二进制特征：连续的 5 个 call 后面紧跟着一堆 0</p>
+<p><img src="./image-20191220083713955.png" alt="image-20191220083713955"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">55            PUSH EBP</span><br><span class="line">8BEC          MOV EBP,ESP</span><br><span class="line">83C4 F0       ADD ESP,-0x10</span><br><span class="line">B8 ????????   MOV EAX,Delphi7.00454834                 ;  UNICODE &quot;;&quot;</span><br><span class="line">E8 ????????   CALL Delphi7.00405C60</span><br><span class="line">A1 ????????   MOV EAX,DWORD PTR DS:[0x456058]</span><br><span class="line">8B00          MOV EAX,DWORD PTR DS:[EAX]</span><br></pre></td></tr></table></figure>
+
+<p><img src="./image-20191220083811375.png" alt="image-20191220083811375"></p>
+<h2 id="VB6-程序"><a href="#VB6-程序" class="headerlink" title="VB6 程序"></a>VB6 程序</h2><p>链接器版本</p>
+<p><img src="./image-20191220084800738.png" alt="image-20191220084800738"></p>
+<p>区段特征</p>
+<p><img src="./image-20191220084845698.png" alt="image-20191220084845698"></p>
+<p>二进制特征（VB程序一般直接使用工具进行反编译）</p>
+<p><img src="./image-20191220085103692.png" alt="image-20191220085103692"></p>
+<h2 id="易语言、VC6"><a href="#易语言、VC6" class="headerlink" title="易语言、VC6"></a>易语言、VC6</h2><p>二进制特征，两个的特征基本信息</p>
+<p><img src="./image-20191220085953203.png" alt="image-20191220085953203"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">55              PUSH EBP</span><br><span class="line">8BEC            MOV EBP,ESP</span><br><span class="line">6A FF           PUSH -0x1</span><br><span class="line">68 ????????     PUSH VC6_0_De.005BDC80</span><br><span class="line">68 ????????     PUSH VC6_0_De.00422B78</span><br><span class="line">64:A1 00000000  MOV EAX,DWORD PTR FS:[0]</span><br></pre></td></tr></table></figure>
+
+<p>连接器特征</p>
+<p><img src="./image-20191220090102677.png" alt="image-20191220090102677"></p>
+<p>区段特征</p>
+<p><img src="./image-20191220090037179.png" alt="image-20191220090037179"></p>
+<h2 id="汇编程序"><a href="#汇编程序" class="headerlink" title="汇编程序"></a>汇编程序</h2><p>汇编程序的链接器版本和区段特征都是不固定的，也没有明确的二进制特征。可以通过查看文件的大小来猜测是不是一个汇编程序。程序的 OEP 部分通常直接就是逻辑代码，也可以作为标识。</p>
+<h2 id="VS-程序的特征"><a href="#VS-程序的特征" class="headerlink" title="VS 程序的特征"></a>VS 程序的特征</h2><p>不同版本的VS编写出来的程序，特征是不同的</p>
+<p>通常 debug 版本的程序入口点可能存在 call + call，而 release 是 call + jmp</p>
+<table>
+<thead>
+<tr>
+<th align="center">VS 版本</th>
+<th align="center">链接器版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">VC 6.0</td>
+<td align="center">6.0</td>
+</tr>
+<tr>
+<td align="center">VC2003</td>
+<td align="center">7.0 / 7.1</td>
+</tr>
+<tr>
+<td align="center">VS2005</td>
+<td align="center">8.0</td>
+</tr>
+<tr>
+<td align="center">VS2008</td>
+<td align="center">9.0</td>
+</tr>
+<tr>
+<td align="center">VS2010</td>
+<td align="center">10.0</td>
+</tr>
+<tr>
+<td align="center">VS2012</td>
+<td align="center">11.0</td>
+</tr>
+<tr>
+<td align="center">VS2013</td>
+<td align="center">12.0</td>
+</tr>
+<tr>
+<td align="center">VS2015</td>
+<td align="center">14.0</td>
+</tr>
+<tr>
+<td align="center">VS2017</td>
+<td align="center">14.1</td>
+</tr>
+<tr>
+<td align="center">VS2019</td>
+<td align="center">14.2</td>
+</tr>
+</tbody></table>
+<h1 id="基本数据类型的识别"><a href="#基本数据类型的识别" class="headerlink" title="基本数据类型的识别"></a>基本数据类型的识别</h1><h2 id="常量的识别"><a href="#常量的识别" class="headerlink" title="常量的识别"></a>常量的识别</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">bool</span> bRet = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> nCount = SIZE;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* szHello = <span class="string">"Hello 15PB"</span>;</span><br><span class="line"><span class="keyword">const</span> eData data = eData::enum_TYPE_1;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> fNum = <span class="number">1.5</span>;</span><br><span class="line"><span class="keyword">const</span> sData stc = &#123; <span class="number">1</span>,<span class="number">2.0</span>,<span class="string">'1'</span> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>常量信息可能被保存在常量数据区和代码区</p>
+<p><img src="./image-20191220094911401.png" alt="image-20191220094911401"></p>
+<h2 id="字符串常量的初始化"><a href="#字符串常量的初始化" class="headerlink" title="字符串常量的初始化"></a>字符串常量的初始化</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 字符串数组</span></span><br><span class="line"><span class="keyword">char</span> szStr[<span class="number">100</span>] = &#123; <span class="string">"szStr[100] Hello 15PB"</span> &#125;;</span><br><span class="line"><span class="comment">// 宽字符串数组 </span></span><br><span class="line"><span class="keyword">wchar_t</span> szWchar[<span class="number">100</span>] = <span class="string">L"szWchar Hello 15PB"</span>;</span><br><span class="line"><span class="comment">// 普通的字符数组</span></span><br><span class="line"><span class="keyword">char</span> szHello[] = <span class="string">"szHello[] Hello 15PB"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>对于一个字符串，初始化通常是： 四字节拷贝  +  不足四字节拷贝  +  填充剩余的空间为 0</p>
+<p>如果初始化数据较多，第一步和第二步会简化成一个串操作进行赋值</p>
+<p>对于一个没有指定大小的字符串初始化操作，就没有填充剩余空间的步骤</p>
+<p><img src="./image-20191220101214702.png" alt="image-20191220101214702"></p>
+<h2 id="指针和引用"><a href="#指针和引用" class="headerlink" title="指针和引用"></a>指针和引用</h2><p>指针和引用在汇编层面的实现完全一致</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>* pnumber = &amp;number;</span><br><span class="line"><span class="comment">// 00F21739  lea         eax, [number]</span></span><br><span class="line"><span class="comment">// 00F2173C  mov         dword ptr[pnumber], eax</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span>&amp; rnumber = number;</span><br><span class="line"><span class="comment">// 00F2173F  lea         eax, [number]</span></span><br><span class="line"><span class="comment">// 00F21742  mov         dword ptr[rnumber], eax</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="分析对象"><a href="#分析对象" class="headerlink" title="分析对象"></a>分析对象</h1><h2 id="构造函数的分析"><a href="#构造函数的分析" class="headerlink" title="构造函数的分析"></a>构造函数的分析</h2><p>构造函数会使用 ecx 传递对象的首地址(this)，构造函数的返回值是 this</p>
+<p>一个存在继承关系且有虚函数的构造函数 = 构造父类\成员 + 初始化虚表指针 + 用户代码 + 返回值</p>
+<p><img src="./image-20191220105137737.png" alt="image-20191220105137737"></p>
+<p><img src="./image-20191220110306338.png" alt="image-20191220110306338"></p>
+<p><img src="./image-20191220111502533.png" alt="image-20191220111502533"></p>
+<h2 id="析构函数的分析"><a href="#析构函数的分析" class="headerlink" title="析构函数的分析"></a>析构函数的分析</h2><p>析构函数中没有设置返回值。</p>
+<p>一个存在继承关系且有虚函数的析构函数 = 重置虚表指针 + 用户代码 + 析构父类</p>
+<p><img src="./image-20191220105452142.png" alt="image-20191220105452142"></p>
+<p><img src="./image-20191220110611026.png" alt="image-20191220110611026"></p>
+<p><img src="./image-20191220112023141.png" alt="image-20191220112023141"></p>
+<h2 id="成员函数和数据成员"><a href="#成员函数和数据成员" class="headerlink" title="成员函数和数据成员"></a>成员函数和数据成员</h2><p>成员函数的调用会使用 ecx 传递 this 指针</p>
+<p>数据成员的使用是通过 this 加上一个偏移得到</p>
+<p><img src="./image-20191220113319905.png" alt="image-20191220113319905"></p>
+<p><img src="./image-20191220113037429.png" alt="image-20191220113037429"></p>
+<h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><p>并不是所有的虚函数调用都会有动态联编</p>
+<p><img src="./image-20191220114045510.png" alt="image-20191220114045510"></p>
+<h1 id="对系统代码的识别"><a href="#对系统代码的识别" class="headerlink" title="对系统代码的识别"></a>对系统代码的识别</h1><h5 id="1-初始化安全-cookie"><a href="#1-初始化安全-cookie" class="headerlink" title="1. 初始化安全 cookie:"></a>1. 初始化安全 cookie:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">002A171E  mov         eax,dword ptr [__security_cookie (02AA004h)]  </span><br><span class="line">002A1723  xor         eax,ebp  </span><br><span class="line">002A1725  mov         dword ptr [ebp-4],eax</span><br><span class="line">; 安全 cookie 是一个运行时确定的值，使用当前的 ebp 对它进行加密，并放置到 ebp - 4 的位置，如果被缓冲区溢出攻击了，那么 ebp - 4 绝对会被覆盖，覆盖后的值再次使用 ebp 异或解密就无法恢复之前的数值，导致程序结束</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-检查一段代码是否是用户代码"><a href="#2-检查一段代码是否是用户代码" class="headerlink" title="2. 检查一段代码是否是用户代码"></a>2. 检查一段代码是否是用户代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">002A1728  mov         ecx,offset _2A6D85CB_</span><br><span class="line">002A172D  call        @__CheckForDebuggerJustMyCode@4 (02A1208h)</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-检查数组是否越界"><a href="#3-检查数组是否越界" class="headerlink" title="3. 检查数组是否越界"></a>3. 检查数组是否越界</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">002A17EE  lea         edx,ds:[2A181Ch]  </span><br><span class="line">002A17F4  call        @_RTC_CheckStackVars@8 (02A1235h)</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-检查当前的程序是否被缓冲区溢出攻击"><a href="#4-检查当前的程序是否被缓冲区溢出攻击" class="headerlink" title="4. 检查当前的程序是否被缓冲区溢出攻击"></a>4. 检查当前的程序是否被缓冲区溢出攻击</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">002A17FE  mov         ecx,dword ptr [ebp-4]  </span><br><span class="line">002A1801  xor         ecx,ebp  </span><br><span class="line">002A1803  call        @__security_check_cookie@4 (02A11DBh)</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-检查堆栈是否平衡"><a href="#5-检查堆栈是否平衡" class="headerlink" title="5. 检查堆栈是否平衡"></a>5. 检查堆栈是否平衡</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">002A1808  add         esp,220h  </span><br><span class="line">002A180E  cmp         ebp,esp  </span><br><span class="line">002A1810  call        __RTC_CheckEsp (02A1212h)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E9%80%86%E5%90%91/" rel="tag"># 逆向</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/18/%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8003/" rel="next" title="逆向基础03">
+                <i class="fa fa-chevron-left"></i> 逆向基础03
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Kncoked</p>
+              <p class="site-description motion-element" itemprop="description">Knocked的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#识别程序的特征"><span class="nav-number">1.</span> <span class="nav-text">识别程序的特征</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何识别程序的特征"><span class="nav-number">1.1.</span> <span class="nav-text">如何识别程序的特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BC-程序-Borland-C"><span class="nav-number">1.2.</span> <span class="nav-text">BC++ 程序(Borland C++)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Delphi-程序"><span class="nav-number">1.3.</span> <span class="nav-text">Delphi 程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VB6-程序"><span class="nav-number">1.4.</span> <span class="nav-text">VB6 程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#易语言、VC6"><span class="nav-number">1.5.</span> <span class="nav-text">易语言、VC6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汇编程序"><span class="nav-number">1.6.</span> <span class="nav-text">汇编程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VS-程序的特征"><span class="nav-number">1.7.</span> <span class="nav-text">VS 程序的特征</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本数据类型的识别"><span class="nav-number">2.</span> <span class="nav-text">基本数据类型的识别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常量的识别"><span class="nav-number">2.1.</span> <span class="nav-text">常量的识别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串常量的初始化"><span class="nav-number">2.2.</span> <span class="nav-text">字符串常量的初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指针和引用"><span class="nav-number">2.3.</span> <span class="nav-text">指针和引用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析对象"><span class="nav-number">3.</span> <span class="nav-text">分析对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数的分析"><span class="nav-number">3.1.</span> <span class="nav-text">构造函数的分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#析构函数的分析"><span class="nav-number">3.2.</span> <span class="nav-text">析构函数的分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#成员函数和数据成员"><span class="nav-number">3.3.</span> <span class="nav-text">成员函数和数据成员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚函数"><span class="nav-number">3.4.</span> <span class="nav-text">虚函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对系统代码的识别"><span class="nav-number">4.</span> <span class="nav-text">对系统代码的识别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-初始化安全-cookie"><span class="nav-number">4.0.0.0.1.</span> <span class="nav-text">1. 初始化安全 cookie:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-检查一段代码是否是用户代码"><span class="nav-number">4.0.0.0.2.</span> <span class="nav-text">2. 检查一段代码是否是用户代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-检查数组是否越界"><span class="nav-number">4.0.0.0.3.</span> <span class="nav-text">3. 检查数组是否越界</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-检查当前的程序是否被缓冲区溢出攻击"><span class="nav-number">4.0.0.0.4.</span> <span class="nav-text">4. 检查当前的程序是否被缓冲区溢出攻击</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-检查堆栈是否平衡"><span class="nav-number">4.0.0.0.5.</span> <span class="nav-text">5. 检查堆栈是否平衡</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kncoked</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
