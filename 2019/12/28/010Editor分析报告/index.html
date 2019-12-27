@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="逆向," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="010Editor简介 ​">
+<meta name="keywords" content="逆向">
+<meta property="og:type" content="article">
+<meta property="og:title" content="010Editor分析报告">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;index.html">
+<meta property="og:site_name" content="Knocked_Blog">
+<meta property="og:description" content="010Editor简介 ​">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;image-20191227141029701.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;image-20191227142022887.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;image-20191227142541777.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;image-20191227143538520.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;image-20191227145203585.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;image-20191227150631619.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;image-20191227150752233.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;image-20191227151325400.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;image-20191227152220728.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;image-20191227152933881.png">
+<meta property="og:updated_time" content="2019-12-27T11:18:20.418Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A&#x2F;image-20191227141029701.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/28/010Editor分析报告/"/>
+
+
+
+
+
+  <title>010Editor分析报告 | Knocked_Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Knocked_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">HelloNewWorld</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/28/010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kncoked">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Knocked_Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">010Editor分析报告</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-27T19:12:00Z">
+                2019-12-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="010Editor简介"><a href="#010Editor简介" class="headerlink" title="010Editor简介"></a>010Editor简介</h1><blockquote>
+<p>​                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             010Editor是一款文本编辑工具，能够编辑文本文件、XML、Unicode和UTF-8、C/C++源码等。</p>
+<p>无限的撤销和强大的编辑和脚本工具。</p>
+<p>巨大的文件支持（50GB+）。</p>
+</blockquote>
+<p>010Editor是一款优秀的十六进制/文本编辑工具，其内置的模板功能对于学习文件格式有极大的帮助。010中包含着许多复杂的工具，用于分析和编辑二进制文件。并且支持脚本，便于更好的自定义您的编辑习惯。</p>
+<p>当然，010Editor是一款收费软件，本次秉承着学习的想法对其实现进行分析。</p>
+<h1 id="逆向初步分析"><a href="#逆向初步分析" class="headerlink" title="逆向初步分析"></a>逆向初步分析</h1><p>已知条件：Qt5程序</p>
+<p><img src="image-20191227141029701.png" alt="image-20191227141029701"></p>
+<p>思路：使用OD动态调试</p>
+<ol>
+<li>程序有随机基址，去掉随机基址拖进OD</li>
+<li>寻找关键函数和字符串并下断点</li>
+<li>自动分析后逆向跳转至关键比较部分</li>
+<li>寻找比较过程中的判断位置以及未知用处的函数调用</li>
+<li>修改关键部分代码（暴力破解）</li>
+<li>逆向分析算法，写出注册机</li>
+</ol>
+<p>在未知Qt函数的情况下，通过对User32.dll模块的CreateWindowA/W函数下断点，然后进行栈回溯，找到在主模块中调用的Qt中封装winapi的函数，即可断下程序的弹窗位置</p>
+<p>对于未知API的情况，也可以通过字符串查找找到关键调用部分</p>
+<h1 id="暴力破解"><a href="#暴力破解" class="headerlink" title="暴力破解"></a>暴力破解</h1><p>对CreateWindowA/W下断，找到主模块中调用的call，并对每个call下断，逐个分析</p>
+<p><img src="image-20191227142022887.png" alt="image-20191227142022887"></p>
+<p>找到关键的函数调用部分</p>
+<p><img src="image-20191227142541777.png" alt="image-20191227142541777"></p>
+<p>逆向向上查找，最终定位到关键位置</p>
+<p><img src="image-20191227143538520.png" alt="image-20191227143538520"></p>
+<p>如果想要通过暴力破解的方式完成对软件的破解，只需要让0x0040A826函数始终返回0x2D即可</p>
+<p><img src="image-20191227145203585.png" alt="image-20191227145203585"></p>
+<p>至此，我们便完成了对010Editor的暴力破解</p>
+<h1 id="校验部分算法分析"><a href="#校验部分算法分析" class="headerlink" title="校验部分算法分析"></a>校验部分算法分析</h1><p>进行算法分析首先要定位到校验部分</p>
+<p>通过逆向跟踪jcc指令定位到相邻的两个call处</p>
+<p>单步跟踪进入到第一个call中</p>
+<p><img src="image-20191227150631619.png" alt="image-20191227150631619"></p>
+<p>分析后发现在0x0040A826函数中存在着大量的异或操作，并且有两个函数调用。跟进第一个函数</p>
+<p><img src="image-20191227150752233.png" alt="image-20191227150752233"></p>
+<p>函数中同样是异或操作，然后将操作后的结果返回。再此跟进第二个call</p>
+<p><img src="image-20191227151325400.png" alt="image-20191227151325400"></p>
+<p>同样是对参数进行异或操作，完成异或后，将结果与0xB做除法，余数为零则返回商，不为零则返回零，并将余数保存在EDX寄存器中</p>
+<p>跳转到下面比较用户名部分</p>
+<p><img src="image-20191227152220728.png" alt="image-20191227152220728"></p>
+<p>用户名传入了一个未知函数，其返回值通过移位的方式与序列号进行比较。猜测此函数是计算用户名特征值的函数，call后面的<code>ADD ESP,0x10</code>说明了函数有四个参数，cdecl调用约定。跟进函数发现内部是一个与校验盘运算求出特征值的函数，使用IDA插件还原源代码</p>
+<p><img src="image-20191227152933881.png" alt="image-20191227152933881"></p>
+<p>至此，我们便完成了对010Editor的验证算法的初步分析</p>
+<h1 id="编写注册机"><a href="#编写注册机" class="headerlink" title="编写注册机"></a>编写注册机</h1><p>了解了验证算法之后，可以通过分析出来的结果编写注册机</p>
+<p>现已知程序现对序列号进行一定的判断，再通过特殊的算法使用用户名算出四字节的校验值，最后用校验值与输入的序列号进行比较，判断是否正确</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">srand(time(<span class="number">0</span>));</span><br><span class="line">BYTE pass[<span class="number">8</span>] = &#123; <span class="number">0x0</span>,<span class="number">0x0</span>,<span class="number">0x0</span>,<span class="number">0x9C</span>,<span class="number">0x0</span>,<span class="number">0x0</span>,<span class="number">0x0</span>,<span class="number">0x0</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> username[<span class="number">20</span>] = &#123; <span class="number">0</span> &#125;;	</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">	pass[<span class="number">0</span>] = rand() % <span class="number">0xFF</span>;</span><br><span class="line">	pass[<span class="number">1</span>] = rand() % <span class="number">0xFF</span>;</span><br><span class="line">	pass[<span class="number">2</span>] = rand() % <span class="number">0xFF</span>;</span><br><span class="line">    pass[<span class="number">4</span>] = rand() % <span class="number">0xFF</span>;</span><br><span class="line">	pass[<span class="number">5</span>] = rand() % <span class="number">0xFF</span>;</span><br><span class="line">	pass[<span class="number">6</span>] = rand() % <span class="number">0xFF</span>;</span><br><span class="line">	pass[<span class="number">7</span>] = rand() % <span class="number">0xFF</span>;</span><br><span class="line"></span><br><span class="line">    DWORD tmp;</span><br><span class="line">	tmp = (pass[<span class="number">1</span>] ^ pass[<span class="number">7</span>]) &amp; <span class="number">0xFF</span>;</span><br><span class="line">	tmp = tmp * <span class="number">0x100</span>;</span><br><span class="line">	tmp = tmp + ((pass[<span class="number">2</span>] ^ pass[<span class="number">5</span>]) &amp; <span class="number">0xFF</span>);</span><br><span class="line">	tmp = tmp ^ <span class="number">0x7892</span>;</span><br><span class="line">	tmp = tmp + <span class="number">0x4D30</span>;</span><br><span class="line">	tmp = tmp ^ <span class="number">0x3421</span>;</span><br><span class="line">	tmp = tmp &amp; <span class="number">0xFFFF</span>;</span><br><span class="line">	<span class="keyword">if</span> (tmp % <span class="number">0xB</span> == <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%02x%02x-%02x%02x-%02x%02x-%02x%02x\n"</span>, pass[<span class="number">0</span>], pass[<span class="number">1</span>], pass[<span class="number">2</span>], pass[<span class="number">3</span>], pass[<span class="number">4</span>], pass[<span class="number">5</span>], pass[<span class="number">6</span>], pass[<span class="number">7</span>]);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过随机数的方式计算出了一个能够运行到验证用户名的部分，将用户名生出的算法抠出来，再dump出校验盘，将函数加入到我们的代码中去，最终的代码为</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">DWORD <span class="built_in">array</span>[] = &#123;</span><br><span class="line"><span class="number">0x39cb44b8</span>, <span class="number">0x23754f67</span>, <span class="number">0x5f017211</span>, <span class="number">0x3ebb24da</span>, <span class="number">0x351707c6</span>, <span class="number">0x63f9774b</span>, <span class="number">0x17827288</span>, <span class="number">0x0fe74821</span>, <span class="number">0x5b5f670f</span>, <span class="number">0x48315ae8</span>, <span class="number">0x785b7769</span>, <span class="number">0x2b7a1547</span>, <span class="number">0x38d11292</span>, <span class="number">0x42a11b32</span>, <span class="number">0x35332244</span>, <span class="number">0x77437b60</span>,</span><br><span class="line"><span class="number">0x1eab3b10</span>, <span class="number">0x53810000</span>, <span class="number">0x1d0212ae</span>, <span class="number">0x6f0377a8</span>, <span class="number">0x43c03092</span>, <span class="number">0x2d3c0a8e</span>, <span class="number">0x62950cbf</span>, <span class="number">0x30f06ffa</span>, <span class="number">0x34f710e0</span>, <span class="number">0x28f417fb</span>, <span class="number">0x350d2f95</span>, <span class="number">0x5a361d5a</span>, <span class="number">0x15cc060b</span>, <span class="number">0x0afd13cc</span>, <span class="number">0x28603bcf</span>, <span class="number">0x3371066b</span>,</span><br><span class="line"><span class="number">0x30cd14e4</span>, <span class="number">0x175d3a67</span>, <span class="number">0x6dd66a13</span>, <span class="number">0x2d3409f9</span>, <span class="number">0x581e7b82</span>, <span class="number">0x76526b99</span>, <span class="number">0x5c8d5188</span>, <span class="number">0x2c857971</span>, <span class="number">0x15f51fc0</span>, <span class="number">0x68cc0d11</span>, <span class="number">0x49f55e5c</span>, <span class="number">0x275e4364</span>, <span class="number">0x2d1e0dbc</span>, <span class="number">0x4cee7ce3</span>, <span class="number">0x32555840</span>, <span class="number">0x112e2e08</span>,</span><br><span class="line"><span class="number">0x6978065a</span>, <span class="number">0x72921406</span>, <span class="number">0x314578e7</span>, <span class="number">0x175621b7</span>, <span class="number">0x40771dbf</span>, <span class="number">0x3fc238d6</span>, <span class="number">0x4a31128a</span>, <span class="number">0x2dad036e</span>, <span class="number">0x41a069d6</span>, <span class="number">0x25400192</span>, <span class="number">0x00dd4667</span>, <span class="number">0x6afc1f4f</span>, <span class="number">0x571040ce</span>, <span class="number">0x62fe66df</span>, <span class="number">0x41db4b3e</span>, <span class="number">0x3582231f</span>,</span><br><span class="line"><span class="number">0x55f6079a</span>, <span class="number">0x1ca70644</span>, <span class="number">0x1b1643d2</span>, <span class="number">0x3f7228c9</span>, <span class="number">0x5f141070</span>, <span class="number">0x3e1474ab</span>, <span class="number">0x444b256e</span>, <span class="number">0x537050d9</span>, <span class="number">0x0f42094b</span>, <span class="number">0x2fd820e6</span>, <span class="number">0x778b2e5e</span>, <span class="number">0x71176d02</span>, <span class="number">0x7fea7a69</span>, <span class="number">0x5bb54628</span>, <span class="number">0x19ba6c71</span>, <span class="number">0x39763a99</span>,</span><br><span class="line"><span class="number">0x178d54cd</span>, <span class="number">0x01246e88</span>, <span class="number">0x3313537e</span>, <span class="number">0x2b8e2d17</span>, <span class="number">0x2a3d10be</span>, <span class="number">0x59d10582</span>, <span class="number">0x37a163db</span>, <span class="number">0x30d6489a</span>, <span class="number">0x6a215c46</span>, <span class="number">0x0e1c7a76</span>, <span class="number">0x1fc760e7</span>, <span class="number">0x79b80c65</span>, <span class="number">0x27f459b4</span>, <span class="number">0x799a7326</span>, <span class="number">0x50ba1782</span>, <span class="number">0x2a116d5c</span>,</span><br><span class="line"><span class="number">0x63866e1b</span>, <span class="number">0x3f920e3c</span>, <span class="number">0x55023490</span>, <span class="number">0x55b56089</span>, <span class="number">0x2c391fd1</span>, <span class="number">0x2f8035c2</span>, <span class="number">0x64fd2b7a</span>, <span class="number">0x4ce8759a</span>, <span class="number">0x518504f0</span>, <span class="number">0x799501a8</span>, <span class="number">0x3f5b2cad</span>, <span class="number">0x38e60160</span>, <span class="number">0x637641d8</span>, <span class="number">0x33352a42</span>, <span class="number">0x51a22c19</span>, <span class="number">0x085c5851</span>,</span><br><span class="line"><span class="number">0x032917ab</span>, <span class="number">0x2b770ac7</span>, <span class="number">0x30ac77b3</span>, <span class="number">0x2bec1907</span>, <span class="number">0x035202d0</span>, <span class="number">0x0fa933d3</span>, <span class="number">0x61255df3</span>, <span class="number">0x22ad06bf</span>, <span class="number">0x58b86971</span>, <span class="number">0x5fca0de5</span>, <span class="number">0x700d6456</span>, <span class="number">0x56a973db</span>, <span class="number">0x5ab759fd</span>, <span class="number">0x330e0be2</span>, <span class="number">0x5b3c0ddd</span>, <span class="number">0x495d3c60</span>,</span><br><span class="line"><span class="number">0x53bd59a6</span>, <span class="number">0x4c5e6d91</span>, <span class="number">0x49d9318d</span>, <span class="number">0x103d5079</span>, <span class="number">0x61ce42e3</span>, <span class="number">0x7ed5121d</span>, <span class="number">0x14e160ed</span>, <span class="number">0x212d4ef2</span>, <span class="number">0x270133f0</span>, <span class="number">0x62435a96</span>, <span class="number">0x1fa75e8b</span>, <span class="number">0x6f092fbe</span>, <span class="number">0x4a000d49</span>, <span class="number">0x57ae1c70</span>, <span class="number">0x004e2477</span>, <span class="number">0x561e7e72</span>,</span><br><span class="line"><span class="number">0x468c0033</span>, <span class="number">0x5dcc2402</span>, <span class="number">0x78507ac6</span>, <span class="number">0x58af24c7</span>, <span class="number">0x0df62d34</span>, <span class="number">0x358a4708</span>, <span class="number">0x3cfb1e11</span>, <span class="number">0x2b71451c</span>, <span class="number">0x77a75295</span>, <span class="number">0x56890721</span>, <span class="number">0x0fef75f3</span>, <span class="number">0x120f24f1</span>, <span class="number">0x01990ae7</span>, <span class="number">0x339c4452</span>, <span class="number">0x27a15b8e</span>, <span class="number">0x0ba7276d</span>,</span><br><span class="line"><span class="number">0x60dc1b7b</span>, <span class="number">0x4f4b7f82</span>, <span class="number">0x67db7007</span>, <span class="number">0x4f4a57d9</span>, <span class="number">0x621252e8</span>, <span class="number">0x20532cfc</span>, <span class="number">0x6a390306</span>, <span class="number">0x18800423</span>, <span class="number">0x19f3778a</span>, <span class="number">0x462316f0</span>, <span class="number">0x56ae0937</span>, <span class="number">0x43c2675c</span>, <span class="number">0x65ca45fd</span>, <span class="number">0x0d604ff2</span>, <span class="number">0x0bfd22cb</span>, <span class="number">0x3afe643b</span>,</span><br><span class="line"><span class="number">0x3bf67fa6</span>, <span class="number">0x44623579</span>, <span class="number">0x184031f8</span>, <span class="number">0x32174f97</span>, <span class="number">0x4c6a092a</span>, <span class="number">0x5fb50261</span>, <span class="number">0x01650174</span>, <span class="number">0x33634af1</span>, <span class="number">0x712d18f4</span>, <span class="number">0x6e997169</span>, <span class="number">0x5dab7afe</span>, <span class="number">0x7c2b2ee8</span>, <span class="number">0x6edb75b4</span>, <span class="number">0x5f836fb6</span>, <span class="number">0x3c2a6dd6</span>, <span class="number">0x292d05c2</span>,</span><br><span class="line"><span class="number">0x052244db</span>, <span class="number">0x149a5f4f</span>, <span class="number">0x5d486540</span>, <span class="number">0x331d15ea</span>, <span class="number">0x4f456920</span>, <span class="number">0x483a699f</span>, <span class="number">0x3b450f05</span>, <span class="number">0x3b207c6c</span>, <span class="number">0x749d70fe</span>, <span class="number">0x417461f6</span>, <span class="number">0x62b031f1</span>, <span class="number">0x2750577b</span>, <span class="number">0x29131533</span>, <span class="number">0x588c3808</span>, <span class="number">0x1aef3456</span>, <span class="number">0x0f3c00ec</span>,</span><br><span class="line"><span class="number">0x7da74742</span>, <span class="number">0x4b797a6c</span>, <span class="number">0x5ebb3287</span>, <span class="number">0x786558b8</span>, <span class="number">0x00ed4ff2</span>, <span class="number">0x6269691e</span>, <span class="number">0x24a2255f</span>, <span class="number">0x62c11f7e</span>, <span class="number">0x2f8a7dcd</span>, <span class="number">0x643b17fe</span>, <span class="number">0x778318b8</span>, <span class="number">0x253b60fe</span>, <span class="number">0x34bb63a3</span>, <span class="number">0x5b03214f</span>, <span class="number">0x5f1571f4</span>, <span class="number">0x1a316e9f</span>,</span><br><span class="line"><span class="number">0x7acf2704</span>, <span class="number">0x28896838</span>, <span class="number">0x18614677</span>, <span class="number">0x1bf569eb</span>, <span class="number">0x0ba85ec9</span>, <span class="number">0x6aca6b46</span>, <span class="number">0x1e43422a</span>, <span class="number">0x514d5f0e</span>, <span class="number">0x413e018c</span>, <span class="number">0x307626e9</span>, <span class="number">0x01ed1dfa</span>, <span class="number">0x49f46f5a</span>, <span class="number">0x461b642b</span>, <span class="number">0x7d7007f2</span>, <span class="number">0x13652657</span>, <span class="number">0x6b160bc5</span>,</span><br><span class="line"><span class="number">0x65e04849</span>, <span class="number">0x1f526e1c</span>, <span class="number">0x5a0251b6</span>, <span class="number">0x2bd73f69</span>, <span class="number">0x2dbf7acd</span>, <span class="number">0x51e63e80</span>, <span class="number">0x5cf2670f</span>, <span class="number">0x21cd0a03</span>, <span class="number">0x5cff0261</span>, <span class="number">0x33ae061e</span>, <span class="number">0x3bb6345f</span>, <span class="number">0x5d814a75</span>, <span class="number">0x257b5df4</span>, <span class="number">0x0a5c2c5b</span>, <span class="number">0x16a45527</span>, <span class="number">0x16f23945</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">function</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *a1, <span class="keyword">int</span> a2, <span class="keyword">char</span> a3, __int16 a4 = <span class="number">0</span>)</span><span class="comment">//最后一个参数是商</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span> *v4; <span class="comment">// edx</span></span><br><span class="line">	<span class="keyword">signed</span> <span class="keyword">int</span> v5; <span class="comment">// esi</span></span><br><span class="line">	<span class="keyword">signed</span> <span class="keyword">int</span> v6; <span class="comment">// edi</span></span><br><span class="line">	<span class="keyword">unsigned</span> __int8 v7; <span class="comment">// bl</span></span><br><span class="line">	<span class="keyword">int</span> v8; <span class="comment">// eax</span></span><br><span class="line">	<span class="keyword">int</span> v9; <span class="comment">// ecx</span></span><br><span class="line">	<span class="keyword">int</span> v10; <span class="comment">// ecx</span></span><br><span class="line">	<span class="keyword">int</span> result; <span class="comment">// eax</span></span><br><span class="line">	<span class="keyword">unsigned</span> __int8 v12; <span class="comment">// [esp+8h] [ebp-10h]</span></span><br><span class="line">	<span class="keyword">unsigned</span> __int8 v13; <span class="comment">// [esp+Ch] [ebp-Ch]</span></span><br><span class="line">	<span class="keyword">unsigned</span> __int8 v14; <span class="comment">// [esp+10h] [ebp-8h]</span></span><br><span class="line">	<span class="keyword">int</span> v15; <span class="comment">// [esp+14h] [ebp-4h]</span></span><br><span class="line"></span><br><span class="line">	v4 = a1;</span><br><span class="line">	v15 = <span class="number">0</span>;</span><br><span class="line">	v5 = <span class="built_in">strlen</span>(a1);</span><br><span class="line">	v6 = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span> (v5 &lt;= <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	v12 = <span class="number">0</span>;</span><br><span class="line">	v13 = <span class="number">0</span>;</span><br><span class="line">	v7 = <span class="number">15</span> * a4;</span><br><span class="line">	v14 = <span class="number">17</span> * a3;</span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">	&#123;</span><br><span class="line">		v8 = <span class="built_in">toupper</span>((<span class="keyword">unsigned</span> __int8)v4[v6]);</span><br><span class="line">		v9 = v15 + <span class="built_in">array</span>[v8];</span><br><span class="line">		<span class="keyword">if</span> (a2)</span><br><span class="line">			v10 = <span class="built_in">array</span>[v13]</span><br><span class="line">			+ <span class="built_in">array</span>[v7]</span><br><span class="line">			+ <span class="built_in">array</span>[v14]</span><br><span class="line">			+ <span class="built_in">array</span>[(<span class="keyword">unsigned</span> __int8)(v8 + <span class="number">47</span>)] * (<span class="built_in">array</span>[(<span class="keyword">unsigned</span> __int8)(v8 + <span class="number">13</span>)] ^ v9);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			v10 = <span class="built_in">array</span>[v12]</span><br><span class="line">			+ <span class="built_in">array</span>[v7]</span><br><span class="line">			+ <span class="built_in">array</span>[v14]</span><br><span class="line">			+ <span class="built_in">array</span>[(<span class="keyword">unsigned</span> __int8)(v8 + <span class="number">23</span>)] * (<span class="built_in">array</span>[(<span class="keyword">unsigned</span> __int8)(v8 + <span class="number">63</span>)] ^ v9);</span><br><span class="line">		result = v10;</span><br><span class="line">		v15 = v10;</span><br><span class="line">		v13 += <span class="number">19</span>;</span><br><span class="line">		++v6;</span><br><span class="line">		v14 += <span class="number">9</span>;</span><br><span class="line">		v7 += <span class="number">13</span>;</span><br><span class="line">		v12 += <span class="number">7</span>;</span><br><span class="line">		v4 = a1;</span><br><span class="line">	&#125; <span class="keyword">while</span> (v6 &lt; v5);</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	srand(time(<span class="number">0</span>));</span><br><span class="line">	BYTE pass[<span class="number">8</span>] = &#123; <span class="number">0x0</span>,<span class="number">0x0</span>,<span class="number">0x0</span>,<span class="number">0x9C</span>,<span class="number">0x0</span>,<span class="number">0x0</span>,<span class="number">0x0</span>,<span class="number">0x0</span> &#125;;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">char</span> username[<span class="number">20</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"请输入用户名："</span>);</span><br><span class="line">	scanf_s(<span class="string">"%s"</span>, username, <span class="number">20</span>);</span><br><span class="line">restart:</span><br><span class="line">	DWORD MyNumber = rand() % <span class="number">0x3E8</span>;</span><br><span class="line"></span><br><span class="line">	DWORD result = function(username, <span class="number">1</span>, <span class="number">0</span>, MyNumber);</span><br><span class="line"></span><br><span class="line">	pass[<span class="number">3</span>] = <span class="number">0x9C</span>;</span><br><span class="line">	pass[<span class="number">4</span>] = (result &amp; <span class="number">0xFF</span>);</span><br><span class="line">	pass[<span class="number">5</span>] = ((result &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>);</span><br><span class="line">	pass[<span class="number">6</span>] = (result &gt;&gt; <span class="number">16</span>);</span><br><span class="line">	pass[<span class="number">7</span>] = (result &gt;&gt; <span class="number">24</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		pass[<span class="number">0</span>] = rand() % <span class="number">0xFF</span>;</span><br><span class="line">		pass[<span class="number">1</span>] = rand() % <span class="number">0xFF</span>;</span><br><span class="line">		pass[<span class="number">2</span>] = rand() % <span class="number">0xFF</span>;</span><br><span class="line"></span><br><span class="line">		DWORD tmp;</span><br><span class="line">		tmp = (pass[<span class="number">1</span>] ^ pass[<span class="number">7</span>]) &amp; <span class="number">0xFF</span>;</span><br><span class="line">		tmp = tmp * <span class="number">0x100</span>;</span><br><span class="line">		tmp = tmp + ((pass[<span class="number">2</span>] ^ pass[<span class="number">5</span>]) &amp; <span class="number">0xFF</span>);</span><br><span class="line">		tmp = tmp ^ <span class="number">0x7892</span>;</span><br><span class="line">		tmp = tmp + <span class="number">0x4D30</span>;</span><br><span class="line">		tmp = tmp ^ <span class="number">0x3421</span>;</span><br><span class="line">		tmp = tmp &amp; <span class="number">0xFFFF</span>;</span><br><span class="line">		<span class="keyword">if</span> (tmp % <span class="number">0xB</span> == <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">if</span> (tmp / <span class="number">0xB</span> == MyNumber) &#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"用户名：\t"</span>);</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"%s\n"</span>, username);</span><br><span class="line"></span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"序列号为：\t"</span>);</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"%02x%02x-%02x%02x-%02x%02x-%02x%02x\n"</span>, pass[<span class="number">0</span>], pass[<span class="number">1</span>], pass[<span class="number">2</span>], pass[<span class="number">3</span>], pass[<span class="number">4</span>], pass[<span class="number">5</span>], pass[<span class="number">6</span>], pass[<span class="number">7</span>]);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">goto</span> restart;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，010Editor的注册机也就完成了</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E9%80%86%E5%90%91/" rel="tag"># 逆向</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/23/%E9%80%86%E5%90%91%E5%9F%BA%E7%A1%8005/" rel="next" title="逆向基础05">
+                <i class="fa fa-chevron-left"></i> 逆向基础05
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Kncoked</p>
+              <p class="site-description motion-element" itemprop="description">Knocked的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#010Editor简介"><span class="nav-number">1.</span> <span class="nav-text">010Editor简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#逆向初步分析"><span class="nav-number">2.</span> <span class="nav-text">逆向初步分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#暴力破解"><span class="nav-number">3.</span> <span class="nav-text">暴力破解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#校验部分算法分析"><span class="nav-number">4.</span> <span class="nav-text">校验部分算法分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编写注册机"><span class="nav-number">5.</span> <span class="nav-text">编写注册机</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kncoked</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
