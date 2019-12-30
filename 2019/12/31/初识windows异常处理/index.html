@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="win32," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="异常机制，就是为了让计算机能够更好的处理程序运行期间产生的错误，从编程的角度来看，能够将错误的处理与程序的逻辑分隔开。使得我们可以集中精力开发关键功能，而把程序可能出现的异常统一管理。  windows提供了异常处理的机制，使得你有机会挽救自己即将崩溃的程序，大体上来说它提供了以下处理异常的机制：  SEH-结构化异常处理 VEH-向量化异常处理 VCH-向量化异常处理  结构化异常处理Stru">
+<meta name="keywords" content="win32">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识windows异常处理">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;31&#x2F;%E5%88%9D%E8%AF%86windows%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86&#x2F;index.html">
+<meta property="og:site_name" content="Knocked_Blog">
+<meta property="og:description" content="异常机制，就是为了让计算机能够更好的处理程序运行期间产生的错误，从编程的角度来看，能够将错误的处理与程序的逻辑分隔开。使得我们可以集中精力开发关键功能，而把程序可能出现的异常统一管理。  windows提供了异常处理的机制，使得你有机会挽救自己即将崩溃的程序，大体上来说它提供了以下处理异常的机制：  SEH-结构化异常处理 VEH-向量化异常处理 VCH-向量化异常处理  结构化异常处理Stru">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;31&#x2F;%E5%88%9D%E8%AF%86windows%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86&#x2F;image-20191230191527102.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;31&#x2F;%E5%88%9D%E8%AF%86windows%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86&#x2F;image-20191230191743475.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;31&#x2F;%E5%88%9D%E8%AF%86windows%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86&#x2F;image-20191230193523354.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;31&#x2F;%E5%88%9D%E8%AF%86windows%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86&#x2F;image-20191230201932427.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;31&#x2F;%E5%88%9D%E8%AF%86windows%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86&#x2F;image-20191230211053307.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;31&#x2F;%E5%88%9D%E8%AF%86windows%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86&#x2F;image-20191230214447467.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;31&#x2F;%E5%88%9D%E8%AF%86windows%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86&#x2F;image-20191230215902722.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;31&#x2F;%E5%88%9D%E8%AF%86windows%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86&#x2F;image-20191230215125626.png">
+<meta property="og:updated_time" content="2019-12-30T14:02:58.781Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;31&#x2F;%E5%88%9D%E8%AF%86windows%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86&#x2F;image-20191230191527102.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/31/初识windows异常处理/"/>
+
+
+
+
+
+  <title>初识windows异常处理 | Knocked_Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Knocked_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">HelloNewWorld</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/31/%E5%88%9D%E8%AF%86windows%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kncoked">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Knocked_Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">初识windows异常处理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-30T22:00:00Z">
+                2019-12-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/win32/" itemprop="url" rel="index">
+                    <span itemprop="name">win32</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p> 异常机制，就是为了让计算机能够更好的处理程序运行期间产生的错误，从编程的角度来看，能够将错误的处理与程序的逻辑分隔开。使得我们可以集中精力开发关键功能，而把程序可能出现的异常统一管理。</p>
+<p> windows提供了异常处理的机制，使得你有机会挽救自己即将崩溃的程序，大体上来说它提供了以下处理异常的机制：</p>
+<ul>
+<li>SEH-结构化异常处理</li>
+<li>VEH-向量化异常处理</li>
+<li>VCH-向量化异常处理</li>
+</ul>
+<h1 id="结构化异常处理"><a href="#结构化异常处理" class="headerlink" title="结构化异常处理"></a>结构化异常处理</h1><p>Structed Exception Handler(结构化异常处理)简称SEH，是微软提供的一种处理异常的机制。</p>
+<p>在VC++中，通过提供四个微软关键字使得程序员能够良好的使用这一机制，分别是：</p>
+<p><code>__try</code>、 <code>__finally</code>、 <code>__except</code>、 <code>__leave</code></p>
+<p>接下来简要说明一下用法</p>
+<h2 id="终结处理器"><a href="#终结处理器" class="headerlink" title="终结处理器"></a>终结处理器</h2><p>由 <code>__try</code>、 <code>__finally</code> 和 <code>__leave</code>构成。能够保证无论 <code>__try</code> 块中的指令以何种方式退出，都必然会执行 <code>__finally</code>  块。[不会进行异常处理，只进行清理操作]</p>
+<p>SEH 的使用范围是线程相关的，每个线程都有自己的函数（SEH链表是局部链表，在<strong>堆栈</strong>中）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">__try</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 被检查的代码块，通常是程序的逻辑部分</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"__try &#123; ... &#125;\n"</span>);</span><br><span class="line">       </span><br><span class="line">	<span class="comment">// 使用 __leave 跳出当前的 __try</span></span><br><span class="line">	__leave;</span><br><span class="line">&#125;</span><br><span class="line">__finally</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 终结处理块，通常用于清理当前程序</span></span><br><span class="line">    <span class="comment">// 无论 __try 以何种方式退出，都会执行这里的指令</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"__finally &#123; ... &#125;\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用 AbnormalTermination 判断 __try 的退出方式</span></span><br><span class="line">    <span class="comment">// 正常退出，返回值是 false</span></span><br><span class="line">	<span class="keyword">if</span> (AbnormalTermination())</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"异常退出\n"</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"正常退出\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191230191527102.png" alt="image-20191230191527102"></p>
+<p>使用 goto 退出（return 、 break 同理）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">__try</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"__try &#123; ... &#125;\n"</span>);</span><br><span class="line">	<span class="keyword">goto</span> tag;</span><br><span class="line">&#125;</span><br><span class="line">__finally</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"__finally &#123; ... &#125;\n"</span>);</span><br><span class="line">	<span class="keyword">if</span> (AbnormalTermination())</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"异常退出\n"</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"正常退出\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line">tag:</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191230191743475.png" alt="image-20191230191743475"></p>
+<h2 id="异常处理器"><a href="#异常处理器" class="headerlink" title="异常处理器"></a>异常处理器</h2><p>由关键字 <code>__try</code> 、 <code>__except</code> 构成，能够保证 <code>__try</code> 中如果产生了异常，会执行过滤表达式中的内容，应该在过滤表达式提供的过滤函数中处理想要处理的异常</p>
+<ul>
+<li>EXCEPTION_EXECUTE_HANDLER(1): 表示该异常被处理，从异常处下一条指令继续执行</li>
+<li>EXCEPTION_CONTINUE_SEARCH(0): 表示异常不能被处理，交给下一个SEH</li>
+<li>EXCEPTION_CONTINUE_EXECUTION(-1): 表示异常被忽略，从异常处继续执行</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 异常处理器: 由关键字 __try 和 __except 构成</span></span><br><span class="line"><span class="comment">// 如果 __try 中产生了异常，会执行过滤表达式中的内容</span></span><br><span class="line"><span class="comment">// 应该在过滤表达式提供的过滤函数中处理想要处理的异常</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 异常过滤表达式中最常见的情况就是编写一个异常过滤函数，对异常进行处理</span></span><br><span class="line"><span class="function">DWORD <span class="title">ExceptionFilter</span><span class="params">(DWORD ExceptionCode, PEXCEPTION_POINTERS ExceptionInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"ExceptionCode: %X\n"</span>, ExceptionCode);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果当前产生的异常是除零异常，那么就通过修改寄存器处理异常</span></span><br><span class="line">	<span class="keyword">if</span> (ExceptionCode == EXCEPTION_INT_DIVIDE_BY_ZERO)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 在这里对寄存器执行的所有修改都会直接被应用到程序中</span></span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Eax = <span class="number">1</span>;</span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Ecx = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 如果异常被处理了，那么就返回重新执行当前的代码</span></span><br><span class="line">		<span class="keyword">return</span> EXCEPTION_CONTINUE_EXECUTION;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果不是自己能够处理的异常，就不处理只报告</span></span><br><span class="line">	<span class="keyword">return</span> EXCEPTION_EXECUTE_HANDLER;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> number = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	__try</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// __try 中的是可能产生异常的代码</span></span><br><span class="line">		<span class="comment">// idiv eax, ecx</span></span><br><span class="line">		number /= <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 通常会为异常过滤表达式提供一个异常处理函数用于处理异常，并返回处理结果</span></span><br><span class="line">	<span class="comment">//  GetExceptionCode: 用于获取异常的类型，能在过滤表达式和异常处理器中使用</span></span><br><span class="line">	<span class="comment">//  GetExceptionInformation: 用于获取异常的信息，只能写在过滤表达式中</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 异常过滤表达式</span></span><br><span class="line">    __except (ExceptionFilter(GetExceptionCode(), GetExceptionInformation()))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 异常处理器，只有 __except 返回 EXCEPTION_EXECUTE_HANDLER 才会执行</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"__try 中产生了异常，但是并没有处理异常 %X\n"</span>, GetExceptionCode());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"numebr = %d\n"</span>, number);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191230193523354.png" alt="image-20191230193523354"></p>
+<h1 id="顶层异常处理器"><a href="#顶层异常处理器" class="headerlink" title="顶层异常处理器"></a>顶层异常处理器</h1><p>TopLevelEH  全称顶层异常处理器(UEF)，这个函数只能有一个，被保存在全局变量中</p>
+<p>由于只会被系统默认的最底层 SEH 调用，所以又会被称作是 SEH 的一种，是整个异常处理的最后一环。所以通常都不会再此执行异常处理操作，而是进行内存 dump ，将消息发送给服务器，进行异常分析</p>
+<p> <strong>在 win7 之后，只有在非调试模式下才会被调用</strong>，可以用来反调试</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">LONG WINAPI <span class="title">TopLevelExceptionFilter</span><span class="params">(PEXCEPTION_POINTERS ExceptionInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"ExceptionCode: %X\n"</span>, ExceptionInfo-&gt;ExceptionRecord-&gt;ExceptionCode);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果当前的异常是除零异常，那么就通过修改寄存器处理异常</span></span><br><span class="line">	<span class="keyword">if</span> (ExceptionInfo-&gt;ExceptionRecord-&gt;ExceptionCode == EXCEPTION_INT_DIVIDE_BY_ZERO)</span><br><span class="line">	&#123;</span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Eax = <span class="number">1</span>;</span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Ecx = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 异常如果被处理了，那么就返回重新执行当前的代码</span></span><br><span class="line">		<span class="keyword">return</span> EXCEPTION_CONTINUE_EXECUTION;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 如果不是自己能够处理的异常，就不处理只报告</span></span><br><span class="line">	<span class="keyword">return</span> EXCEPTION_EXECUTE_HANDLER;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> number = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 通过一个函数可以直接的安装 UEF</span></span><br><span class="line">	SetUnhandledExceptionFilter(TopLevelExceptionFilter);</span><br><span class="line"></span><br><span class="line">	__try</span><br><span class="line">	&#123;</span><br><span class="line">		number /= <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 异常一旦被 SEH 处理，就不会再传递给 UEF</span></span><br><span class="line">	__except (EXCEPTION_CONTINUE_SEARCH)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"不会被执行\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"number = %d\n"</span>, number);</span><br><span class="line"></span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接运行exe结果：</p>
+<p><img src="image-20191230201932427.png" alt="image-20191230201932427"></p>
+<h1 id="向量化异常处理"><a href="#向量化异常处理" class="headerlink" title="向量化异常处理"></a>向量化异常处理</h1><h2 id="向量异常VEH"><a href="#向量异常VEH" class="headerlink" title="向量异常VEH"></a>向量异常VEH</h2><p>Vectored Exception Handler 向量化异常处理的一种，被保存在一个全局的链表中，进程内的所有线程都可以使用这个函数，是第一个处理异常的函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">LONG WINAPI <span class="title">VectoredExceptionHandler</span><span class="params">(PEXCEPTION_POINTERS ExceptionInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"ExceptionCode: %X\n"</span>, ExceptionInfo-&gt;ExceptionRecord-&gt;ExceptionCode);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (ExceptionInfo-&gt;ExceptionRecord-&gt;ExceptionCode == EXCEPTION_INT_DIVIDE_BY_ZERO)</span><br><span class="line">	&#123;</span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Eax = <span class="number">1</span>;</span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Ecx = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> EXCEPTION_CONTINUE_EXECUTION;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> EXCEPTION_EXECUTE_HANDLER;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> number = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 通过一个API可以直接安装VEH</span></span><br><span class="line">    <span class="comment">// 参数一是布尔值，如果为 TRUE，就将当前的函数添加到全局 VEH 函数的链表头部</span></span><br><span class="line">	<span class="comment">// 否则则为尾部</span></span><br><span class="line">    AddVectoredExceptionHandler(TRUE, VectoredExceptionHandler);</span><br><span class="line"></span><br><span class="line">	__try</span><br><span class="line">	&#123;</span><br><span class="line">		number /= <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 异常首先被 VEH 接收到，如果无法处理才会传递给 SEH</span></span><br><span class="line">	__except (EXCEPTION_EXECUTE_HANDLER)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"永远不会被执行\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"number = %d\n"</span>, number);</span><br><span class="line"></span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191230211053307.png" alt="image-20191230211053307"></p>
+<h2 id="向量化异常处理VCH"><a href="#向量化异常处理VCH" class="headerlink" title="向量化异常处理VCH"></a>向量化异常处理VCH</h2><p>VCH：和 VEH 类似，但是只会在异常被处理的情况下最后调用</p>
+<h1 id="异常的传递过程"><a href="#异常的传递过程" class="headerlink" title="异常的传递过程"></a>异常的传递过程</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">LONG WINAPI <span class="title">VectoredExceptionHandler</span><span class="params">(EXCEPTION_POINTERS* ExceptionInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"VEH: ExceptionCode: %X\n"</span>, ExceptionInfo-&gt;ExceptionRecord-&gt;ExceptionCode);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (ExceptionInfo-&gt;ExceptionRecord-&gt;ExceptionCode == EXCEPTION_INT_DIVIDE_BY_ZERO)</span><br><span class="line">	&#123;</span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Eax = <span class="number">1</span>;</span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Ecx = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> EXCEPTION_CONTINUE_SEARCH;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> EXCEPTION_EXECUTE_HANDLER;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">DWORD <span class="title">StructedExceptionFilter</span><span class="params">(PEXCEPTION_POINTERS ExceptionInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"SEH: ExceptionCode: %X\n"</span>, ExceptionInfo-&gt;ExceptionRecord-&gt;ExceptionCode);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (ExceptionInfo-&gt;ExceptionRecord-&gt;ExceptionCode == EXCEPTION_INT_DIVIDE_BY_ZERO)</span><br><span class="line">	&#123;</span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Eax++;</span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Ecx = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> EXCEPTION_CONTINUE_SEARCH;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> EXCEPTION_EXECUTE_HANDLER;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">LONG WINAPI <span class="title">TopLevelExceptionFilter</span><span class="params">(PEXCEPTION_POINTERS ExceptionInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"UEF: ExceptionCode: %X\n"</span>, ExceptionInfo-&gt;ExceptionRecord-&gt;ExceptionCode);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (ExceptionInfo-&gt;ExceptionRecord-&gt;ExceptionCode == EXCEPTION_INT_DIVIDE_BY_ZERO)</span><br><span class="line">	&#123;</span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Eax++;</span><br><span class="line">		ExceptionInfo-&gt;ContextRecord-&gt;Ecx = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> EXCEPTION_CONTINUE_EXECUTION;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> EXCEPTION_EXECUTE_HANDLER;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">LONG WINAPI <span class="title">VectoredContinueHandler</span><span class="params">(PEXCEPTION_POINTERS ExceptionInfo)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// VCH 不会对异常进行处理，调用的时机和异常处理的情况有关</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"VCH: ExceptionCode: %X\n"</span>, ExceptionInfo-&gt;ExceptionRecord-&gt;ExceptionCode);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> EXCEPTION_CONTINUE_SEARCH;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> number = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	AddVectoredExceptionHandler(TRUE, VectoredExceptionHandler);</span><br><span class="line">	AddVectoredContinueHandler(TRUE, VectoredContinueHandler);</span><br><span class="line">	SetUnhandledExceptionFilter(TopLevelExceptionFilter);</span><br><span class="line"></span><br><span class="line">	__try</span><br><span class="line">	&#123;</span><br><span class="line">		number /= <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	__except (StructedExceptionFilter(GetExceptionInformation()))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"SEH: 异常处理器\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"number = %d\n"</span>, number);</span><br><span class="line"></span><br><span class="line">	system(<span class="string">"pause"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接运行exe结果：</p>
+<p><img src="image-20191230214447467.png" alt="image-20191230214447467"></p>
+<p>可以得出，异常的传递过程：VEH -&gt; SEH -&gt; UEH -&gt; VCH</p>
+<h1 id="探究SEH"><a href="#探究SEH" class="headerlink" title="探究SEH"></a>探究SEH</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 带有异常处理函数的函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 在 VS 的同一个函数中无论编写了多少个 SEH， 编译器</span></span><br><span class="line">    <span class="comment">// 实际上只会安装一个叫做 except_handler4 的函数</span></span><br><span class="line">	__try</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"__try &#123; ... &#125;\n"</span>);</span><br><span class="line">		__try</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"__try &#123; ... &#125;\n"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		__except (<span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"__except (1) &#123; ... &#125;\n"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	__except (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"__except (1) &#123; ... &#125;\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 没有异常处理函数的函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 遍历当前程序中已经存在的异常处理函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShowSEH</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 定义一个结构体指针，用于保存 SEH 链表的头节点</span></span><br><span class="line">	PEXCEPTION_REGISTRATION_RECORD header = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 通过 FS:[0] 找到 ExceptionList 的头节点</span></span><br><span class="line">	__asm push fs:[<span class="number">0</span>]</span><br><span class="line">	__asm pop header</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 遍历异常处理链表，链表以 -1 结尾</span></span><br><span class="line">	<span class="keyword">while</span> (header != (EXCEPTION_REGISTRATION_RECORD*)<span class="number">-1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"function: %08X\n"</span>, header-&gt;Handler);</span><br><span class="line">		header = header-&gt;Next;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">EXCEPTION_DISPOSITION NTAPI <span class="title">ExceptionRoutine</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	<span class="comment">// 产生的异常信息</span></span></span></span><br><span class="line"><span class="function"><span class="params">	_Inout_ struct _EXCEPTION_RECORD* ExceptionRecord,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ PVOID EstablisherFrame,</span></span></span><br><span class="line"><span class="function"><span class="params">	<span class="comment">// 产生异常时的线程上下文</span></span></span></span><br><span class="line"><span class="function"><span class="params">	_Inout_ struct _CONTEXT* ContextRecord,</span></span></span><br><span class="line"><span class="function"><span class="params">	_In_ PVOID DispatcherContext</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"自定义SEH: ExceptionCode: %X\n"</span>, ExceptionRecord-&gt;ExceptionCode);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (EXCEPTION_INT_DIVIDE_BY_ZERO == ExceptionRecord-&gt;ExceptionCode)</span><br><span class="line">	&#123;</span><br><span class="line">		ContextRecord-&gt;Eax = <span class="number">1</span>;</span><br><span class="line">		ContextRecord-&gt;Ecx = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> ExceptionContinueExecution;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ExceptionContinueSearch;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	test1();</span><br><span class="line">	test2();</span><br><span class="line"></span><br><span class="line">	PEXCEPTION_REGISTRATION_RECORD ExceptionList = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">	__asm push fs : [<span class="number">0</span>]</span><br><span class="line">	__asm pop ExceptionList</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 遍历异常处理函数</span></span><br><span class="line">	ShowSEH();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 手动安装一个异常处理函数，操作 FS:[0]</span></span><br><span class="line">	__asm push ExceptionRoutine</span><br><span class="line">	__asm push fs : [<span class="number">0</span>]</span><br><span class="line">	__asm mov fs : [<span class="number">0</span>], esp</span><br><span class="line"></span><br><span class="line">	ShowSEH();</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> number = <span class="number">0</span>;</span><br><span class="line">	number /= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line"></span><br><span class="line">	__asm mov eax, ExceptionList</span><br><span class="line">	__asm mov fs : [<span class="number">0</span>], eax</span><br><span class="line">	__asm add esp, <span class="number">0x08</span></span><br><span class="line"></span><br><span class="line">	ShowSEH();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="image-20191230215902722.png" alt="image-20191230215902722"></p>
+<p>编译器只生成一个 except_handler4 函数</p>
+<p><img src="image-20191230215125626.png" alt="image-20191230215125626"></p>
+<p>参考文章：</p>
+<p><a href="https://docs.microsoft.com/zh-cn/cpp/cpp/structured-exception-handling-c-cpp?view=vs-2019" target="_blank" rel="noopener">https://docs.microsoft.com/zh-cn/cpp/cpp/structured-exception-handling-c-cpp?view=vs-2019</a></p>
+<p><a href="https://bbs.pediy.com/thread-181067.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-181067.htm</a></p>
+<p><a href="https://blogs.msdn.microsoft.com/zhanli/2010/06/24/c-tips-addvectoredexceptionhandler-addvectoredcontinuehandler-and-setunhandledexceptionfilter/" target="_blank" rel="noopener">https://blogs.msdn.microsoft.com/zhanli/2010/06/24/c-tips-addvectoredexceptionhandler-addvectoredcontinuehandler-and-setunhandledexceptionfilter/</a></p>
+<p><a href="https://bbs.pediy.com/thread-226235.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-226235.htm</a></p>
+<p><a href="https://bbs.pediy.com/thread-189315.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-189315.htm</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/win32/" rel="tag"># win32</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/28/010Editor%E5%88%86%E6%9E%90%E6%8A%A5%E5%91%8A/" rel="next" title="010Editor分析报告">
+                <i class="fa fa-chevron-left"></i> 010Editor分析报告
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Kncoked</p>
+              <p class="site-description motion-element" itemprop="description">Knocked的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#结构化异常处理"><span class="nav-number">1.</span> <span class="nav-text">结构化异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#终结处理器"><span class="nav-number">1.1.</span> <span class="nav-text">终结处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常处理器"><span class="nav-number">1.2.</span> <span class="nav-text">异常处理器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#顶层异常处理器"><span class="nav-number">2.</span> <span class="nav-text">顶层异常处理器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#向量化异常处理"><span class="nav-number">3.</span> <span class="nav-text">向量化异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#向量异常VEH"><span class="nav-number">3.1.</span> <span class="nav-text">向量异常VEH</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向量化异常处理VCH"><span class="nav-number">3.2.</span> <span class="nav-text">向量化异常处理VCH</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异常的传递过程"><span class="nav-number">4.</span> <span class="nav-text">异常的传递过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#探究SEH"><span class="nav-number">5.</span> <span class="nav-text">探究SEH</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kncoked</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
