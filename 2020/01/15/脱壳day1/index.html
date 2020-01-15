@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="手工加壳目标：将代码段加密，以防止IDA等静态工具分析 步骤：  添加一个区段（文件大小，区段数量） 将原OEP修改为新区段中的地址 将代码断加密（异或） 在新区段新OEP处，添加解密代码（异或）  TIPS：  代码段默认没有可写属性，需要修改。 有随机基址属性的程序回重定位代码，一般会去掉这个属性。如果没有去掉，就需要在壳代码中进行重定位   具体实现： 添加区段 使用LordPE添加区段后程">
+<meta name="keywords" content="Kncoked">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脱壳day1">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;index.html">
+<meta property="og:site_name" content="Knocked_Blog">
+<meta property="og:description" content="手工加壳目标：将代码段加密，以防止IDA等静态工具分析 步骤：  添加一个区段（文件大小，区段数量） 将原OEP修改为新区段中的地址 将代码断加密（异或） 在新区段新OEP处，添加解密代码（异或）  TIPS：  代码段默认没有可写属性，需要修改。 有随机基址属性的程序回重定位代码，一般会去掉这个属性。如果没有去掉，就需要在壳代码中进行重定位   具体实现： 添加区段 使用LordPE添加区段后程">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113190353479.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113192858974.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113193819215.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113193916213.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113194112191.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113194357886.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113195933124.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113200546829.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113200704743.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113200814720.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113201146071.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113201341791.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113204424090.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200114092730752.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200114092752818.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200114102054892.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200114102106846.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200114102118969.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200114102129967.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200114104314708.png">
+<meta property="og:updated_time" content="2020-01-15T10:52:11.102Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;01&#x2F;15&#x2F;%E8%84%B1%E5%A3%B3day1&#x2F;image-20200113190353479.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/01/15/脱壳day1/"/>
+
+
+
+
+
+  <title>脱壳day1 | Knocked_Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Knocked_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">HelloNewWorld</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/15/%E8%84%B1%E5%A3%B3day1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kncoked">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Knocked_Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">脱壳day1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-15T10:52:27Z">
+                2020-01-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="手工加壳"><a href="#手工加壳" class="headerlink" title="手工加壳"></a>手工加壳</h1><p>目标：将代码段加密，以防止IDA等静态工具分析</p>
+<p>步骤：</p>
+<ol>
+<li>添加一个区段（文件大小，区段数量）</li>
+<li>将原OEP修改为新区段中的地址</li>
+<li>将代码断加密（异或）</li>
+<li>在新区段新OEP处，添加解密代码（异或）</li>
+</ol>
+<p>TIPS：</p>
+<ol>
+<li>代码段默认没有可写属性，需要修改。</li>
+<li>有随机基址属性的程序回重定位代码，一般会去掉这个属性。如果没有去掉，就需要在壳代码中进行重定位</li>
+</ol>
+<hr>
+<p>具体实现：</p>
+<h2 id="添加区段"><a href="#添加区段" class="headerlink" title="添加区段"></a>添加区段</h2><p><img src="image-20200113190353479.png" alt="image-20200113190353479"></p>
+<p>使用LordPE添加区段后程序是无法运行的，因为LordPE不会为程序添加虚拟大小和文件大小。</p>
+<p>再使用010Editor向文件中添加数据</p>
+<p><img src="image-20200113192858974.png" alt="image-20200113192858974"></p>
+<h2 id="修改OEP"><a href="#修改OEP" class="headerlink" title="修改OEP"></a>修改OEP</h2><p>原OEP：00011339</p>
+<p>新OEP：00020000</p>
+<p><img src="image-20200113193819215.png" alt="image-20200113193819215"></p>
+<p>修改新OEP处代码</p>
+<p><img src="image-20200113193916213.png" alt="image-20200113193916213"></p>
+<h2 id="加密代码段"><a href="#加密代码段" class="headerlink" title="加密代码段"></a>加密代码段</h2><p>要加密的段信息</p>
+<p><img src="image-20200113194112191.png" alt="image-20200113194112191"></p>
+<p>在010Editor中加密代码段</p>
+<p><img src="image-20200113194357886.png" alt="image-20200113194357886"></p>
+<p>由于代码段有重定位信息，所以加密后应去掉随机基址</p>
+<p><img src="image-20200113195933124.png" alt="image-20200113195933124"></p>
+<p>注意，需要修改代码段属性可写</p>
+<h1 id="脱壳"><a href="#脱壳" class="headerlink" title="脱壳"></a>脱壳</h1><p>脱壳的目的：</p>
+<ol>
+<li>Cracker（破解者）脱壳，解密，破解</li>
+<li>杀毒引擎（脱壳引擎，反病毒虚拟机）解密，查杀病毒，扫描特征</li>
+</ol>
+<p>脱壳的步骤：</p>
+<ol>
+<li>找到原始OEP</li>
+</ol>
+<p>一般来说，找到原始OEP或者跟踪到OEP时，程序都会完成解密操作</p>
+<ol start="2">
+<li>Dump内存到文件</li>
+</ol>
+<p>当可执行文件在内存已经完成解密之后，我们将内存中代码数据转储（dump）到文件，就可以进一步分析</p>
+<ol start="3">
+<li>修复文件（修复IAT，重构导入表）</li>
+</ol>
+<p>从内存中转储的内存数据代码有一些与原本文件中的内容是不一致的。比如说IAT表，内存中IAT表会被初始化为函数地址表，而文件中IAT表与INT表内容一致。所以要想程序正常运行一般都需要修复IAT，因为加壳之后程序一般都会自己处理导入表，IAT以及重定位等。</p>
+<p>导入表和IAT</p>
+<p><img src="image-20200113200546829.png" alt="image-20200113200546829"></p>
+<p>IAT表在文件中保存的是一个RVA数组，每一项都指向了函数字符串结构</p>
+<p><img src="image-20200113200704743.png" alt="image-20200113200704743"></p>
+<p>在内存中，这个RVA数组，被修改为函数地址，每一个函数地址就是之前对应的函数字符串的函数</p>
+<p><img src="image-20200113200814720.png" alt="image-20200113200814720"></p>
+<p>所以从内存中dump出的文件，必须进行修复IAT或导入表</p>
+<h1 id="脱自己的壳"><a href="#脱自己的壳" class="headerlink" title="脱自己的壳"></a>脱自己的壳</h1><h2 id="找到原始OEP"><a href="#找到原始OEP" class="headerlink" title="找到原始OEP"></a>找到原始OEP</h2><p>单步跟踪，很容易找到原始OEP</p>
+<h2 id="Dump内存到文件"><a href="#Dump内存到文件" class="headerlink" title="Dump内存到文件"></a>Dump内存到文件</h2><p><img src="image-20200113201146071.png" alt="image-20200113201146071"></p>
+<p><img src="image-20200113201341791.png" alt="image-20200113201341791"></p>
+<h2 id="修复IAT或者修复导入表"><a href="#修复IAT或者修复导入表" class="headerlink" title="修复IAT或者修复导入表"></a>修复IAT或者修复导入表</h2><p>使用ImportREC修复</p>
+<p><img src="image-20200113204424090.png" alt="image-20200113204424090"></p>
+<h1 id="关于压缩算法"><a href="#关于压缩算法" class="headerlink" title="关于压缩算法"></a>关于压缩算法</h1><ol>
+<li>有损压缩</li>
+</ol>
+<p>一个像素点：RGB红绿蓝</p>
+<p>一个图片：(3,4,5),(4,5,3),(5,4,3)</p>
+<p>压缩后：(4,4,4),3</p>
+<ol start="2">
+<li>无损压缩</li>
+</ol>
+<p>一个文件：0,0,0,0,0,0,0</p>
+<p>压缩后：0,7</p>
+<h1 id="脱壳三步法"><a href="#脱壳三步法" class="headerlink" title="脱壳三步法"></a>脱壳三步法</h1><ol>
+<li><p>寻找原始OEP</p>
+</li>
+<li><p>dump内存到文件</p>
+</li>
+<li><p>修复文件</p>
+</li>
+</ol>
+<h2 id="寻找OEP技巧"><a href="#寻找OEP技巧" class="headerlink" title="寻找OEP技巧"></a>寻找OEP技巧</h2><h3 id="堆栈平衡法（ESP定律）"><a href="#堆栈平衡法（ESP定律）" class="headerlink" title="堆栈平衡法（ESP定律）"></a>堆栈平衡法（ESP定律）</h3><p>壳代码就像一个函数，进入时会开辟堆栈，保存寄存器环境，退出时会恢复堆栈，恢复寄存器。所以应该时堆栈平衡的，那我们可以在壳代码操作了堆栈后对堆栈设置访问或写入断点，然后运行程序，当断点命中的时候，应该就是退出壳代码的时候。在其附近单步几次，应该就能到达程序的原始OEP</p>
+<h3 id="特征定位法"><a href="#特征定位法" class="headerlink" title="特征定位法"></a>特征定位法</h3><p>在我们熟悉的程序中，我们可以使用特征来定位程序原始OEP。特征有几种：</p>
+<ol>
+<li>二进制特征：</li>
+</ol>
+<p>比如release版的VS2013是：</p>
+<p>OEP入口特征：E8 ?? ?? ?? ?? E9</p>
+<p>第一个CALL内的特征：56 57 BF 4E E6 40 BB BE 00 00 FF FF 3B C7</p>
+<ol start="2">
+<li>API特征</li>
+</ol>
+<p>比如release版的VS2013的第一个API调用是：</p>
+<p>GetSystemTimeAsFileTime</p>
+<p>比如VC6.0的第一个API调用是：</p>
+<p>GetModuleHandleA</p>
+<ol start="3">
+<li>编译器特征：</li>
+</ol>
+<p>IAT调用不同的表一起生成的调用机器码是不一样的</p>
+<p>VS -&gt; call [IAT地址] -&gt; FF 15 ?? ?? ?? ??</p>
+<p>delphi -&gt; jmp [IAT地址] -&gt; FF 25 ?? ?? ?? ??</p>
+<h3 id="单步跟踪法"><a href="#单步跟踪法" class="headerlink" title="单步跟踪法"></a>单步跟踪法</h3><p>这种方法一般使用在分析自己加壳的程序或者是联系分析壳时。</p>
+<h1 id="脱壳-0-aspack-exe"><a href="#脱壳-0-aspack-exe" class="headerlink" title="脱壳-0.aspack.exe"></a>脱壳-0.aspack.exe</h1><h2 id="寻址OEP"><a href="#寻址OEP" class="headerlink" title="寻址OEP"></a>寻址OEP</h2><p>ESP定律</p>
+<h2 id="dump内存"><a href="#dump内存" class="headerlink" title="dump内存"></a>dump内存</h2><p><img src="image-20200114092730752.png" alt="image-20200114092730752"></p>
+<h2 id="修复文件"><a href="#修复文件" class="headerlink" title="修复文件"></a>修复文件</h2><p><img src="image-20200114092752818.png" alt="image-20200114092752818"></p>
+<p>TIP：如果程序有随机基址，脱壳后需要把随机基址标志位置0</p>
+<h1 id="壳代码的基本流程"><a href="#壳代码的基本流程" class="headerlink" title="壳代码的基本流程"></a>壳代码的基本流程</h1><ol>
+<li>保存寄存器环境</li>
+<li>加载一些必要的API</li>
+<li>解密代码和数据</li>
+<li>修复重定位</li>
+<li>填充IAT</li>
+<li>恢复寄存器环境</li>
+</ol>
+<h1 id="分析壳代码-0-aspack-exe"><a href="#分析壳代码-0-aspack-exe" class="headerlink" title="分析壳代码-0.aspack.exe"></a>分析壳代码-0.aspack.exe</h1><p>壳OEP</p>
+<p><img src="image-20200114102054892.png" alt="image-20200114102054892"></p>
+<p>加载必要API</p>
+<p><img src="image-20200114102106846.png" alt="image-20200114102106846"></p>
+<p>解密解压缩代码</p>
+<p><img src="image-20200114102118969.png" alt="image-20200114102118969"></p>
+<p>修复重定位</p>
+<p><img src="image-20200114102129967.png" alt="image-20200114102129967"></p>
+<p>修复重定位的公式：</p>
+<p>重定位表中存储两个有用字段：</p>
+<ol>
+<li>需要重定位的分页地址</li>
+<li>需要重定位的分页偏移</li>
+</ol>
+<p>重定位分为两步：</p>
+<ol>
+<li>计算出重定位地址，要重定位的地址=模块基地址+分页地址+分页偏移</li>
+<li>修复要重定位的地址中数据，[要重定位的地址]-默认模块基地址+当前模块及地址</li>
+</ol>
+<p>填充IAT</p>
+<p>原理：</p>
+<ol>
+<li>从导入表中获取dll名称</li>
+<li>从导入表中的INT，获取函数明程或者序号</li>
+<li>通过GetModuleHandleA或者LoadLibraryA获取模块基地址，通过GetProcAddress获取函数地址</li>
+<li>将函数地址填充到对应IAT数组中</li>
+<li>修改属性，跳转原始OEP</li>
+</ol>
+<p><img src="image-20200114104314708.png" alt="image-20200114104314708"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/02/%E5%8F%8D%E8%B0%83%E8%AF%95&%E5%8F%8D%E5%8F%8D%E8%B0%83%E8%AF%95&OD%E6%8F%92%E4%BB%B6%E7%9A%84%E7%BC%96%E5%86%99/" rel="next" title="反调试&反反调试&OD插件的编写">
+                <i class="fa fa-chevron-left"></i> 反调试&反反调试&OD插件的编写
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Kncoked</p>
+              <p class="site-description motion-element" itemprop="description">Knocked的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#手工加壳"><span class="nav-number">1.</span> <span class="nav-text">手工加壳</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#添加区段"><span class="nav-number">1.1.</span> <span class="nav-text">添加区段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改OEP"><span class="nav-number">1.2.</span> <span class="nav-text">修改OEP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加密代码段"><span class="nav-number">1.3.</span> <span class="nav-text">加密代码段</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#脱壳"><span class="nav-number">2.</span> <span class="nav-text">脱壳</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#脱自己的壳"><span class="nav-number">3.</span> <span class="nav-text">脱自己的壳</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#找到原始OEP"><span class="nav-number">3.1.</span> <span class="nav-text">找到原始OEP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dump内存到文件"><span class="nav-number">3.2.</span> <span class="nav-text">Dump内存到文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修复IAT或者修复导入表"><span class="nav-number">3.3.</span> <span class="nav-text">修复IAT或者修复导入表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于压缩算法"><span class="nav-number">4.</span> <span class="nav-text">关于压缩算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#脱壳三步法"><span class="nav-number">5.</span> <span class="nav-text">脱壳三步法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#寻找OEP技巧"><span class="nav-number">5.1.</span> <span class="nav-text">寻找OEP技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#堆栈平衡法（ESP定律）"><span class="nav-number">5.1.1.</span> <span class="nav-text">堆栈平衡法（ESP定律）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征定位法"><span class="nav-number">5.1.2.</span> <span class="nav-text">特征定位法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单步跟踪法"><span class="nav-number">5.1.3.</span> <span class="nav-text">单步跟踪法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#脱壳-0-aspack-exe"><span class="nav-number">6.</span> <span class="nav-text">脱壳-0.aspack.exe</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#寻址OEP"><span class="nav-number">6.1.</span> <span class="nav-text">寻址OEP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dump内存"><span class="nav-number">6.2.</span> <span class="nav-text">dump内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修复文件"><span class="nav-number">6.3.</span> <span class="nav-text">修复文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#壳代码的基本流程"><span class="nav-number">7.</span> <span class="nav-text">壳代码的基本流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析壳代码-0-aspack-exe"><span class="nav-number">8.</span> <span class="nav-text">分析壳代码-0.aspack.exe</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kncoked</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

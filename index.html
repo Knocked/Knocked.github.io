@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/01/%E5%8F%8D%E8%B0%83%E8%AF%95&%E5%8F%8D%E5%8F%8D%E8%B0%83%E8%AF%95&OD%E6%8F%92%E4%BB%B6%E7%9A%84%E7%BC%96%E5%86%99/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/15/%E8%84%B1%E5%A3%B3day1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kncoked">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/01/01/%E5%8F%8D%E8%B0%83%E8%AF%95&%E5%8F%8D%E5%8F%8D%E8%B0%83%E8%AF%95&OD%E6%8F%92%E4%BB%B6%E7%9A%84%E7%BC%96%E5%86%99/" itemprop="url">反调试&反反调试&OD插件的编写</a></h1>
+                <a class="post-title-link" href="/2020/01/15/%E8%84%B1%E5%A3%B3day1/" itemprop="url">脱壳day1</a></h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-01T12:50:40Z">
-                2020-01-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-15T10:52:27Z">
+                2020-01-15
               </time>
             
 
@@ -320,11 +320,165 @@
       
         
           
+          手工加壳目标：将代码段加密，以防止IDA等静态工具分析
+步骤：
+
+添加一个区段（文件大小，区段数量）
+将原OEP修改为新区段中的地址
+将代码断加密（异或）
+在新
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/01/15/%E8%84%B1%E5%A3%B3day1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/02/%E5%8F%8D%E8%B0%83%E8%AF%95&%E5%8F%8D%E5%8F%8D%E8%B0%83%E8%AF%95&OD%E6%8F%92%E4%BB%B6%E7%9A%84%E7%BC%96%E5%86%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kncoked">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Knocked_Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/02/%E5%8F%8D%E8%B0%83%E8%AF%95&%E5%8F%8D%E5%8F%8D%E8%B0%83%E8%AF%95&OD%E6%8F%92%E4%BB%B6%E7%9A%84%E7%BC%96%E5%86%99/" itemprop="url">反调试&反反调试&OD插件的编写</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-01T20:50:00Z">
+                2020-01-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/win32/" itemprop="url" rel="index">
+                    <span itemprop="name">win32</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
           windows异常分发回顾异常的分发一共有多少轮？一共有两轮。 KiDispatchExcption 函数的最后一个参数 FirstChance 表示当前是第几
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2020/01/01/%E5%8F%8D%E8%B0%83%E8%AF%95&%E5%8F%8D%E5%8F%8D%E8%B0%83%E8%AF%95&OD%E6%8F%92%E4%BB%B6%E7%9A%84%E7%BC%96%E5%86%99/#more" rel="contents">
+            <a class="btn" href="/2020/01/02/%E5%8F%8D%E8%B0%83%E8%AF%95&%E5%8F%8D%E5%8F%8D%E8%B0%83%E8%AF%95&OD%E6%8F%92%E4%BB%B6%E7%9A%84%E7%BC%96%E5%86%99/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1584,154 +1738,6 @@ BC++ 程序(Borland C
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/06/mysql%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Kncoked">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Knocked_Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/06/mysql%E5%9F%BA%E7%A1%80/" itemprop="url">mysql基础</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-06T14:26:00Z">
-                2019-12-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/sql/" itemprop="url" rel="index">
-                    <span itemprop="name">sql</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          数据库（Database，DB）就是数据存放的地方，是需要长期存放在计算机内的有组织并且可共享的数据集合。这里所说的数据不仅包括普通意义上的数字，还包括文字、图
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/12/06/mysql%E5%9F%BA%E7%A1%80/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1782,7 +1788,7 @@ BC++ 程序(Borland C
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
